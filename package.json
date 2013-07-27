@@ -1,0 +1,25 @@
+{
+  "name": "clover-node",
+  "version": "1.0.0",
+  "description": "Simple Node Frame",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vtejuf/clover-node"
+  },
+  "dependencies": {
+    "mongous": "0.2.4",
+    "bson":"",
+    "mongodb":""
+  },
+  "keywords": [
+    "node"
+  ],
+  "author": "vtejuf",
+  "license": "BSD",
+  "readmeFilename": "README.md",
+  "gitHead": "c18e56448efe807aad7b25db811976f1f7e65de5"
+}

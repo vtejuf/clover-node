@@ -1,0 +1,185 @@
+*{
+	padding:0;
+	margin:0;
+}
+
+img{
+	display:block;
+}
+ul{margin:0;}
+ul li{
+	list-style:none;
+}
+
+body{
+	background:url(../images/bg.jpg) repeat;
+	font: 15px/19px "Lucida Grande",Helvetica,Arial,'Microsoft Yahei',Verdana,sans-serif;
+}
+h1,h2,h3,h4,h5,h6,th{
+	font-size:15px;
+}
+tbody,tr{
+	display: block;
+	width: 100%;
+}
+.warper818{
+	width:818px;
+	margin:0 auto;
+}
+
+.warper1000{
+	width:1000px;
+	margin:0 auto;
+}
+.float-right{
+	float:right;
+}
+
+.clear-both{
+	clear:both;
+}
+.like-table{
+	display:table;
+}
+.like-row{
+	display:table-row;
+}
+.like-cell{
+	display:table-cell;
+}
+
+.logo{
+	width:auto;
+	background-position:12px 12px;
+	position:relative;
+}
+dl{
+    clear: both;
+    margin: 0 0 30px;
+    overflow: hidden;
+    height: auto;
+}
+dt{
+    border-left: 3px solid #0B0D5D;
+    color: #0B0D5D;
+    line-height: 24px;
+    margin: 0 0 10px;
+    padding: 0 0 0 10px;
+}
+dd{
+    float: left;
+    padding: 0 5px;
+}
+.no-float dd{
+    float:none;
+}
+
+.logo img{
+	margin:0 auto;
+}
+.index-logo{
+	padding:50px 0;
+}
+.search {
+    text-align: center;
+}
+input.search-query{
+	border-radius:4px;
+	border-color:#8384ac;
+	width:474px;
+}
+.type-tree {
+    margin: 50px 0 0;
+}
+.type-tree .title{
+	font-size:16px;
+	color:#0B0D5D;
+}
+.header {
+	margin:20px 0;
+}
+.header .logo{
+	float:left;
+}
+.header .logo img{
+	height:30px;
+	margin:0 20px 0 0;
+}
+.search-title {
+	border:1px solid #d9d9d9;
+	border-bottom:2px solid #999;
+	background:#fff;
+	padding:5px 0;
+	width:100%;
+}
+.search-title strong{
+	margin:0 10px;
+	color:#0B0D5D;
+}
+.search-title .float-right{
+	margin:0 10px;
+}
+.main{
+	float:left;
+	width:75%;
+	position:relative;
+}
+.right{
+	float:right;
+	width:20%;
+}
+.right .type-tree,
+.right .type-tree .title{
+	margin:0;
+}
+.result-list{
+	border:1px solid #d9d9d9;
+	padding:10px 0;
+	width:100%;
+}
+
+.result-list li {
+    margin: 5px 10px;
+    height: auto;
+}
+.result-list .makes{
+	cursor:pointer;
+    background: none repeat scroll 0 0 #cdcdcd;
+    border-bottom: 1px solid #0B0D78;
+    padding: 0 10px;
+    line-height: 50px;
+    height: 50px;
+}
+.result-list .makes:hover,
+.result-list .makes:active{
+    background: none repeat scroll 0 0 #efefef;
+    border-bottom: 1px solid #0B0D78;
+	color: #0B0D78;
+}
+.result-list table{
+	background:#fff;
+	width:100%;
+	display:none;
+}
+.result-list table.current{
+	display:block;
+}
+.result-list tr:hover{
+    background: none repeat scroll 0 0 #efefef;
+}
+.result-list td,
+.result-list th{
+	padding:5px 10px 10px;
+}
+
+.top-banner{
+	height:90px;
+}
+
+.content{
+	margin:10px 0 0;
+}
+.go-top{
+	cursor:pointer;
+	display:none;
+}
