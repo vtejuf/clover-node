@@ -85,6 +85,7 @@ var session = {
 					doc = JSON.stringify(doc);
 					doc = encodeURIComponent(crypto.en_code(doc));
 					app.res.setHeader("Set-Cookie", [collection_name+'='+doc]);
+					db.close();
 					callback();
 				});
 			});
