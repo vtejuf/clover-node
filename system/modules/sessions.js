@@ -40,7 +40,6 @@ var session = {
 			return;
 		}
 		this.sid = session_info._id;
-		this.flash = session_info.flash;
 		var oid = this.sid;
 		db(dbname).open(function(err,db){
 			db.collection(collection_name).findOne({'_id':OID(oid)},{timeout :15},function(err,doc){
@@ -54,7 +53,7 @@ var session = {
 	},
 
 	set : function(app,data,callback){
-		if(!data && this.sid){
+		if(!data && !!this.sid){
 			var where = {'_id':OID(this.sid)};
 			var option = {wtimeout:15, fsync:true, safe:true};
 			db(dbname).open(function(err,db){
@@ -65,17 +64,24 @@ var session = {
 				});
 			});
 		}else{
-			if(typeof data != 'object')return;
-			if(!this.sid && data){
+			if(!data || typeof data != 'object'){
+				callback();
+				return;
+			}
+			if(!this.sid){
 				var where = data;
 			}else{
 				var where = {'_id':OID(this.sid)};
 			}
 			data.date = new Date().getTime();
-			if(data.flash)data.flash='';
+			if(data.flash){
+				var _flash = data.flash;
+				delete data.flash;
+			}
 			var option = {upsert:true, new:true, wtimeout:15, fsync:true, safe:true};
 			db(dbname).open(function(err,db){
 				db.collection(collection_name).findAndModify(where,[['_id', 1]],data,option,function(err,doc){
+					doc.flash = _flash;
 					doc = JSON.stringify(doc);
 					doc = encodeURIComponent(crypto.en_code(doc));
 					app.res.setHeader("Set-Cookie", [collection_name+'='+doc]);
@@ -93,21 +99,7 @@ var session = {
 		var session = crypto.de_code(decodeURIComponent(cookies[collection_name]));
 		session = JSON.parse(session);
 		return session;
-	},
-
-	set_flash : function(app,data){
-		if(!data || (typeof data!='object')){
-			return;
-		}
-		var session = this.get(app);
-		data = JSON.stringify(data);
-		session.flash = data;
-		session = JSON.stringify(session);
-		session = encodeURIComponent(crypto.en_code(session));
-		app.res.setHeader("Set-Cookie", [collection_name+'='+session]);
-	},
-
-	flash : '';
+	}
 }
 
 module.exports = session;
