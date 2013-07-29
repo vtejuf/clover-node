@@ -3,12 +3,12 @@ var crypto = require('./crypto.js');
 var db = require("../server/db.js");
 var parsecookie = require('./cookies.js');
 var dbname = cfg.dbname;
-var sessionCfg = cfg.sessionCfg;
+var sessionCfg = cfg.session;
 var collection_name = sessionCfg.name;
 var OID = db.prototype.supply.ObjectID;
 
 sessionCfg.expires = !!sessionCfg.expires?sessionCfg.expires:1800;
-sessionCfg.expires= parseInt(sessionCfg.expires); 
+sessionCfg.expires= parseInt(sessionCfg.expires);
 var today = new Date();
 var time = today.getTime() + sessionCfg.expires * 1000; 
 var new_date = new Date(time); 

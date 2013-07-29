@@ -9,16 +9,24 @@ function router(app){
 
 	if(method === 'GET'){
 		if(typeof app._get[pathname] === 'function'){
-			app.session.init(app,function(){
+			if(app.cfg.session.active){
+				app.session.init(app,function(){
+					app._get[pathname](app);
+				});
+			}else{
 				app._get[pathname](app);
-			});
+			}
 		}else{
 			statics(app);
 		}
 	}else if(method === 'POST'){
-		app.session.init(app,function(){
+		if(app.cfg.session.active){
+			app.session.init(app,function(){
+				posts(app);
+			});
+		}else{
 			posts(app);
-		});
+		}
 	}
 
 };
