@@ -20,6 +20,10 @@ var session = {
 	sid : '',
 
 	init : function(app,callback){
+		if(!sessionCfg.active){
+			callback();
+			return;
+		}
 		var cookies = parsecookie(app.req);
 		if(!cookies[collection_name]){
 			callback();
@@ -53,6 +57,10 @@ var session = {
 	},
 
 	set : function(app,data,callback){
+		if(!sessionCfg.active){
+			callback();
+			return;
+		}
 		if(!data && !!this.sid){
 			var where = {'_id':OID(this.sid)};
 			var option = {wtimeout:15, fsync:true, safe:true};
@@ -93,6 +101,9 @@ var session = {
 	},
 
 	get : function(app){
+		if(!sessionCfg.active){
+			return '';
+		}
 		var cookies = parsecookie(app.req);
 		if(!cookies[collection_name]){
 			return '';
