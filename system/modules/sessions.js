@@ -4,23 +4,25 @@ var db = require("../server/db.js");
 var parsecookie = require('./cookies.js');
 var dbname = cfg.dbname;
 var sessionCfg = cfg.session;
-var collection_name = sessionCfg.name;
+var collection_name = sessionCfg?sessionCfg.name:'session';
 var OID = db.prototype.supply.ObjectID;
 
-sessionCfg.expires = !!sessionCfg.expires?sessionCfg.expires:1800;
-sessionCfg.expires= parseInt(sessionCfg.expires);
-var today = new Date();
-var time = today.getTime() + sessionCfg.expires * 1000; 
-var new_date = new Date(time); 
-var expiresDate = new_date.toGMTString();
-sessionCfg.expires += 'expires=' +  expiresDate + ';'; 
-var session_option = 'expires='+sessionCfg.expires+';'+sessionCfg.httponly;
+function _session_option(){
+	sessionCfg.expires = !!sessionCfg.expires?sessionCfg.expires:1800;
+	sessionCfg.expires= parseInt(sessionCfg.expires);
+	var today = new Date();
+	var time = today.getTime() + sessionCfg.expires * 1000; 
+	var new_date = new Date(time); 
+	var expiresDate = new_date.toGMTString();
+	sessionCfg.expires += 'expires=' +  expiresDate + ';'; 
+	return 'expires='+sessionCfg.expires+';'+sessionCfg.httponly;
+}
 
 var session = {
 	sid : '',
 
 	init : function(app,callback){
-		if(!sessionCfg.active){
+		if(!sessionCfg){
 			callback();
 			return;
 		}
@@ -49,7 +51,7 @@ var session = {
 			db.collection(collection_name).findOne({'_id':OID(oid)},{timeout :15},function(err,doc){
 				doc = doc?JSON.stringify(doc):'';
 				doc = encodeURIComponent(crypto.en_code(doc));
-				app.res.setHeader('Set-Cookie',[collection_name+'='+doc+';'+session_option]);
+				app.res.setHeader('Set-Cookie',[collection_name+'='+doc+';'+_session_option()]);
 				db.close();
 				callback();
 			});
@@ -57,7 +59,7 @@ var session = {
 	},
 
 	set : function(app,data,callback){
-		if(!sessionCfg.active){
+		if(!sessionCfg){
 			callback();
 			return;
 		}
@@ -101,7 +103,7 @@ var session = {
 	},
 
 	get : function(app){
-		if(!sessionCfg.active){
+		if(!sessionCfg){
 			return '';
 		}
 		var cookies = parsecookie(app.req);

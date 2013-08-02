@@ -8,11 +8,10 @@ module.exports = {
 	dbname : 'cars',
 	notfound : '/theme/newcar/404.html',
 	crypto_key:'vtejuf33clover',
-	session : {
-		active:false,//session开关
-		name:'car_sessions',
-		expires : 1800,//秒
-		httponly : 'HttpOnly'//或留空
-	}
+	// session : {
+	// 	name:'car_sessions',
+	// 	expires : 1800,//秒
+	// 	httponly : 'HttpOnly'//或留空
+	// }
 }
 
