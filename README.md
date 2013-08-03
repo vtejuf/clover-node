@@ -9,13 +9,13 @@ nodejs框架，帮助用户使用nodejs快速建站，简单、易用、快速�
 <p>
 使用clover-node，需要包含config.js和/system文件夹下的所有文件。<hr>
 新建一个主入口文件，app.js<br/>
+<pre>
 <code>
-  <pre>
   //app.js
   var app = require("./system/modules/clover.js");
   app.listen(app.cfg.port, app.cfg.host);
-  </pre>
 </code>
+</pre>
 
 {{cfg.属性}}接收来自config文件的属性，如{{theme}}/css/styles.css;
 </p>
