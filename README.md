@@ -57,8 +57,25 @@ app.listen(app.cfg.port, app.cfg.host);
 <hr>
 <h2>app</h2>
 <p>主入口文件 app.js里的app对象</p>
+<h4>app.cfg</h4>
+<p>调用config.js</p>
 <h4>app.get</h4>
+<pre>
+app.get(path,handle);
+
+@param
+    path：路由路径
+    handle：处理函数，函数参数(app,[arg1,arg2,...]);
+</pre>
+<pre>
+app.get('/version/(:any)/(:any)',handle.version);//version(app,any1,any2);
+app.get('/name',handle.clover);//clover(app);
+app.get('/(:any)',handle.page_not_found);//clover(app,any);
+</pre>
 <h4>app.post</h4>
+<pre>
+app.post('/post',post);//post(app); post的值保存在app.postdata里
+</pre>
 <h4>app.listen</h4>
 <p>控制器 handle.js里的app对象</p>
 <h4>app.cfg</h4>
@@ -68,11 +85,21 @@ app.listen(app.cfg.port, app.cfg.host);
   app.tmpl('index.ejs',{name:'clover-node'});
 </pre>
 <h4>app.session</h4>
+取消config.js中session的注释，开启session功能
+<pre>
+  session : {
+    name:'car_sessions',//session名称，数据库必须有相同名称的collection
+    expires : 1800,//单位秒
+    httponly : 'HttpOnly'//或''
+  }
+</pre>
 <pre>
 app.session.set(app,data,callback);
 
-@param 
-data：一个json对象，data.flash 只有下一次请求时有效
+@param
+    app:clover-node的app请求对象
+    data：新增或更新session，参数为一个json对象，data.flash 只有下一次请求时有效；删除session，参数为空字符串;
+    callback
 </pre>
 <pre>
   app.session.set(app,{name:'clover-node'},function(){
@@ -82,13 +109,23 @@ data：一个json对象，data.flash 只有下一次请求时有效
 <pre>
 app.session.get(app);
 
-@return
-json对象
+@return  json对象
 </pre>
 <pre>
   var session_info = app.session.get(app);
 </pre>
 <h4>app.redirect</h4>
+页面跳转
+<pre>
+app.redirect(app,url);
+
+@param
+    app:clover-node的app请求对象
+    url:跳转的地址
+</pre>
+<pre>
+app.redirect(app,'/redirect?q=somequery');
+</pre>
 <h4>app.parsecookie</h4>
 <h4>app.querystring</h4>
 <hr>
