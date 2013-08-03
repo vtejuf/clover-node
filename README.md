@@ -1,8 +1,8 @@
 <h2>clover-node</h2>
 <p>
 nodejs框架，帮助用户使用nodejs快速建站，简单、易用、快速开发<br/>
-页面使用ejs模板引擎<a herf='https://github.com/visionmedia/ejs'><i>ejs api</i></a><br/>
-数据库使用mongodb<a herf='http://mongodb.github.io/node-mongodb-native/contents.html#node-js-mongodb-driver-manual-contents'><i>mongodb api</i></a>
+页面使用ejs模板引擎：<i>ejs api</i>:<i>https://github.com/visionmedia/ejs</i><br/>
+数据库使用mongodb：<i>mongodb api</i>:<i>http://mongodb.github.io/node-mongodb-native/contents.html#node-js-mongodb-driver-manual-contents</i>
 </p>
 <hr>
 <p>
@@ -62,15 +62,23 @@ app.listen(app.cfg.port, app.cfg.host);
 配置项属性可以通过app.cfg调用
 <hr>
 <h2>app</h2>
+<strong>主入口文件 app.js里的app对象</strong>
 <h4>app.get</h4>
 <h4>app.post</h4>
 <h4>app.listen</h4>
+<strong>控制器 handle.js里的app对象</strong>
 <h4>app.cfg</h4>
 <h4>app.tmpl</h4>
 <h4>app.session</h4>
 <h4>app.redirect</h4>
 <h4>app.parsecookie</h4>
 <h4>app.querystring</h4>
+<hr>
+<h2>crypto</h2>
+<hr>
+<h2>db</h2>
+<hr>
+<h2>ejs</h2>
 
 {{cfg.属性}}接收来自config文件的属性，如{{theme}}/css/styles.css;
 
