@@ -1,5 +1,4 @@
 <h2>clover-node</h2>
-<hr>
 <p>
 nodejs框架，帮助用户使用nodejs快速建站，简单、易用、快速开发<br/>
 页面使用ejs模板引擎<a herf='https://github.com/visionmedia/ejs'><i>ejs api</i></a><br/>
@@ -42,6 +41,31 @@ app.listen(app.cfg.port, app.cfg.host);
 </pre>
 到此一个基本的nodejs服务器就建好了，$ node app开启服务器。
 </p>
+
+<hr>
+<h2>配置项 config.js</h2>
+<pre><code>
+  host : 'localhost',
+  port : '3000',
+  root : '/web/clover-node',
+  theme : '/theme/me',
+  dbhost : '127.0.0.1',
+  dbport : '27017',
+  dbname : 'cars',
+  crypto_key:'vtejuf33clover',
+  // session : {
+  //  name:'car_sessions',
+  //  expires : 1800,//秒
+  //  httponly : 'HttpOnly'//或留空
+  // }
+</code></pre>
+配置项属性可以通过app.cfg调用
+<hr>
+<h2>app</h2>
+<h3>app.get</h3>
+<h3>app.post</h3>
+<h3>app.listen</h3>
+
 {{cfg.属性}}接收来自config文件的属性，如{{theme}}/css/styles.css;
 
 对象
