@@ -100,7 +100,7 @@ app.session.set(app,data,callback);
 
 @param
     app:clover-node的app请求对象
-    data：新增或更新session，参数为一个json对象，data.flash 只有下一次请求时有效；删除session，参数为空字符串;
+    data：新增或更新session，参数为一个对象，data.flash 只有下一次请求时有效；删除session，参数为空字符串;
     callback
 </pre>
 <pre>
@@ -111,7 +111,7 @@ app.session.set(app,data,callback);
 <pre>
 app.session.get(app);
 
-@return  json对象
+@return  对象
 </pre>
 <pre>
   var session_info = app.session.get(app);
@@ -129,104 +129,72 @@ app.redirect(app,url);
 app.redirect(app,'/redirect?q=somequery');
 </pre>
 <h4>app.parsecookie</h4>
+解析当前所有cookie
+<pre>
+app.parsecookie(req);
+
+@param
+    req：请求的request，app.req
+@return
+    对象
+</pre>
 <h4>app.querystring</h4>
+nodejs的querystring函数
+<h4>app.mender</h4>
+其他处理函数
+<pre>
+app.mender.merge(obj1,obj2,obj3,....);
+//合并对象
+@param
+    多个对象
+
+app.mender.arrUnique(arr);
+//数组去重
+@param
+    数组
+
+app.mender.trim(str);
+//字符串去首尾空格
+@param
+    字符串
+
+app.mender.objectOrder(propertyName);
+//[].sort的参数函数
+@param
+    排序的属性名
+
+</pre>
 <hr>
 <h2>crypto</h2>
+config.js中的crypto_key为加密的key
+<pre>
+var cfg = require('./config');
+var crypto = require(cfg.root+'/system/modules/crypto.js');
+
+crypto.en_code(data);//返回base64
+crypto.de_code(data);//返回base64
+
+//以下函数参数，参考nodejs的crypto函数
+hash(algorithm,data);//返回base64
+hmac(algorithm,key,data);//返回base64
+credentials(details);
+sign(algorithm,private_key,data,output_format);
+verify(algorithm,public_key,signature,data,signature_format);
+</pre>
 <hr>
 <h2>db</h2>
+<pre>
+var cfg = require('./config');
+var db = require(cfg.root+'/system/server/db.js');
+
+db(cfg.dbname).open(function(err,db){
+  db.collection('your_collection').find(...).toArray(function(err,doc){
+    db.close();
+  });
+});
+</pre>
+数据库操作，参考<i>mongodb api</i>:<i>http://mongodb.github.io/node-mongodb-native/contents.html#node-js-mongodb-driver-manual-contents</i>
 <hr>
-<h2>ejs</h2>
-{{cfg.属性}}接收来自config文件的属性，如{{theme}}/css/styles.css;
-
-对象
-
-clover对象<br/>
-
-app = {<br/>
-  get : function,  //监听get事件<br/>
-  post : function  //监听post事件<br/>
-}
-
-
-server对象<br/>
-
-app = {<br/>
-  cfg : {<br/>
-    host : 'localhost',  //主机名，127.0.0.1<br/>
-    port : '3000',    //端口<br/>
-    root : '/clover-node',  //网站根目录<br/>
-    theme : '/theme/mm'    //模板目录<br/>
-    dbhost : 'mm'    //数据库<br/>
-    notfound : '/404.html' //404页面<br/>
-    sessionCfg : { //session配置对象<br/>
-        collection : 'mm.session',  //表名<br/>
-        secret : 'clover',  <br/>
-        expires : 'Wed, 13-Jan-2021 22:23:01 GMT',<br/>
-        httponly : 'HttpOnly'<br/>
-        }<br/>
-  },<br/>
-  req : request,  //node request对象<br/>
-  res : response,  //node response对象<br/>
-  tmpl : function,  //模板函数<br/>
-  session : {<br/>
-    get : function,  //get session<br/>
-    set : function,  //set session<br/>
-    remove : function  //remove session<br/>
-  },<br/>
-  mender : {<br/>
-    merge : function  //合并对象<br/>
-    dbDataSplit : function  //返回查询的指定列的值,{name : [数组]}<br/>
-    arrUnique : function  //返回一个去重数组<br/>
-  },<br/>
-  db : {},//mongous对象<br/>
-  parsecookie : {},  //node parsecookie<br/>
-  querystring : {}  //node querystring<br/>
-}
-
-
-
-<hr>
-
-
-
-函数
-
-路由<br/>
-
-/js/server/router.js
-
-
-控制器<br/>
-
-/js/modules/handle.js<br/>
-app.get('/',handle.index);
-
-
-模板<br/>
-
-/js/modules/tmpl.js<br/>
-app.tmpl('/theme/me/index.html',{data : data});
-
-
-session<br/>
-
-/js/modules/sessions.js<br/>
-app.session.get(app,function(session){});  //返回session 或 false<br/>
-app.session.set(app,[{data : data}]);  //参数二[ 为空->新建session || 包含sid属性->更新session || 不包含sid属性->新建session并添加data属性到session]<br/>
-app.session.remove(app,session_id)
-
-
-mender<br/>
-
-/js/modules/mender.js<br/>
-app.mender.merge(obj,objCover,...);  <br/>
-app.mender.dbDateSplit(r,collection);  参数r -> app.db().find(function(r){}) 回调函数的参数r; collection -> 查询的列
-app.mender.arrUnique(arr);
-
-<hr>
-
-
-html页面<br/>
-\<script src="/theme/me/include/js/mender.js" type="text/javascript" ></script><br/>
-
-var tmpldata= mender.parsequery('{{tmpldata}}');  //接受后台tmpl()过来的data，并解析<br/>
+<h2>模板文件ejs</h2>
+可以用两个花括号包围config.js的属性名调用config属性值。{{root}}网站根目录
+其他模板文件写法，参考<i>ejs api</i>:<i>https://github.com/visionmedia/ejs</i>
