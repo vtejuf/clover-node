@@ -66,7 +66,7 @@ app.get(path,handle);
 @param
     path：路由路径
     handle：处理函数，函数参数(app,[arg1,arg2,...]);
-    
+
 app.get('/version/(:any)/(:any)',handle.version);//version(app,any1,any2);
 app.get('/name',handle.clover);//clover(app);
 app.get('/(:any)',handle.page_not_found);//clover(app,any);
@@ -194,5 +194,5 @@ db(cfg.dbname).open(function(err,db){
 数据库操作，参考<i>mongodb api</i>:<i>http://mongodb.github.io/node-mongodb-native/contents.html#node-js-mongodb-driver-manual-contents</i>
 <hr>
 <h2>模板文件ejs</h2>
-可以用两个花括号包围config.js的属性名调用config属性值。{{root}}网站根目录
+可以用两个花括号包围config.js的属性名调用config属性值。{{root}}网站根目录。<br>
 其他模板文件写法，参考<i>ejs api</i>:<i>https://github.com/visionmedia/ejs</i>
