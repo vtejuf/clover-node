@@ -11,14 +11,38 @@ nodejs框架，帮助用户使用nodejs快速建站，简单、易用、快速�
 新建一个主入口文件，app.js<br/>
 <pre>
 <code>
-  //app.js
-  var app = require("./system/modules/clover.js");
-  app.listen(app.cfg.port, app.cfg.host);
+//app.js
+var app = require("./system/modules/clover.js");
+app.listen(app.cfg.port, app.cfg.host);
 </code>
 </pre>
+新建一个应用文件夹app，在app文件夹下新建一个控制器文件handle.js，
+<pre>
+<code>
+//handle.js
 
-{{cfg.属性}}接收来自config文件的属性，如{{theme}}/css/styles.css;
+//函数的第一个参数是当前请求对象
+function index(app){
+    console.log(app);
+}
+exports.index=index;
+</code>
+</pre>
+在app.js中添加控制器和路由
+<pre>
+<code>
+//app.js
+var app = require("./system/modules/clover.js");
+
+var handle = require('./app/handle.js');//控制器
+app.get('/',handle.index);//路由，把根目录路由到handle控制器的index方法
+
+app.listen(app.cfg.port, app.cfg.host);
+</code>
+</pre>
+到此一个基本的nodejs服务器就建好了，$node app开启服务器。
 </p>
+{{cfg.属性}}接收来自config文件的属性，如{{theme}}/css/styles.css;
 
 对象
 
