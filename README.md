@@ -2,17 +2,19 @@
 <hr>
 <p>
 nodejs框架，帮助用户使用nodejs快速建站，简单、易用、快速开发<br/>
-页面使用ejs模板引擎<a herf='https://github.com/visionmedia/ejs'><cite>ejs api</cite></a><br/>
-数据库使用mongodb<a herf='http://mongodb.github.io/node-mongodb-native/contents.html#node-js-mongodb-driver-manual-contents'><cite>mongodb api</cite></a>
+页面使用ejs模板引擎<a herf='https://github.com/visionmedia/ejs'><i>ejs api</i></a><br/>
+数据库使用mongodb<a herf='http://mongodb.github.io/node-mongodb-native/contents.html#node-js-mongodb-driver-manual-contents'><i>mongodb api</i></a>
 </p>
 <hr>
 <p>
 使用clover-node，需要包含config.js和/system文件夹下的所有文件。<hr>
 新建一个主入口文件，app.js<br/>
 <code>
+  <pre>
   //app.js
   var app = require("./system/modules/clover.js");
   app.listen(app.cfg.port, app.cfg.host);
+  </pre>
 </code>
 
 {{cfg.属性}}接收来自config文件的属性，如{{theme}}/css/styles.css;
