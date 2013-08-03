@@ -62,9 +62,15 @@ app.listen(app.cfg.port, app.cfg.host);
 配置项属性可以通过app.cfg调用
 <hr>
 <h2>app</h2>
-<h3>app.get</h3>
-<h3>app.post</h3>
-<h3>app.listen</h3>
+<h4>app.get</h4>
+<h4>app.post</h4>
+<h4>app.listen</h4>
+<h4>app.cfg</h4>
+<h4>app.tmpl</h4>
+<h4>app.session</h4>
+<h4>app.redirect</h4>
+<h4>app.parsecookie</h4>
+<h4>app.querystring</h4>
 
 {{cfg.属性}}接收来自config文件的属性，如{{theme}}/css/styles.css;
 
