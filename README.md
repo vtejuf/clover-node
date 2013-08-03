@@ -102,19 +102,17 @@ app.session.set(app,data,callback);
     app:clover-node的app请求对象
     data：新增或更新session，参数为一个对象，data.flash 只有下一次请求时有效；删除session，参数为空字符串;
     callback
-</pre>
-<pre>
-  app.session.set(app,{name:'clover-node'},function(){
-    app.tmpl('index.ejs');
-  });
+
+app.session.set(app,{name:'clover-node'},function(){
+  app.tmpl('index.ejs');
+});
 </pre>
 <pre>
 app.session.get(app);
 
 @return  对象
-</pre>
-<pre>
-  var session_info = app.session.get(app);
+
+var session_info = app.session.get(app);
 </pre>
 <h4>app.redirect</h4>
 页面跳转
@@ -124,8 +122,7 @@ app.redirect(app,url);
 @param
     app:clover-node的app请求对象
     url:跳转的地址
-</pre>
-<pre>
+
 app.redirect(app,'/redirect?q=somequery');
 </pre>
 <h4>app.parsecookie</h4>
@@ -137,6 +134,8 @@ app.parsecookie(req);
     req：请求的request，app.req
 @return
     对象
+
+var cookies = app.parsecookie(app.req);
 </pre>
 <h4>app.querystring</h4>
 nodejs的querystring函数
