@@ -62,11 +62,11 @@ app.listen(app.cfg.port, app.cfg.host);
 配置项属性可以通过app.cfg调用
 <hr>
 <h2>app</h2>
-<strong>主入口文件 app.js里的app对象</strong>
+<p>主入口文件 app.js里的app对象</p>
 <h4>app.get</h4>
 <h4>app.post</h4>
 <h4>app.listen</h4>
-<strong>控制器 handle.js里的app对象</strong>
+<p>控制器 handle.js里的app对象</p>
 <h4>app.cfg</h4>
 <h4>app.tmpl</h4>
 <h4>app.session</h4>
