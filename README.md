@@ -74,23 +74,25 @@ app.listen(app.cfg.port, app.cfg.host);
   app.tmpl('index.ejs',{name:'clover-node'});
 </code></pre>
 <h4>app.session</h4>
+<pre>
+app.session.set(app,data,callback);
+
+@param 
+data：一个json对象，data.flash 只有下一次请求时有效
+</pre>
 <pre><code>
   app.session.set(app,{name:'clover-node'},function(){
     app.tmpl('index.ejs');
   });
-  var session_info = app.session.get(app);
 </code></pre>
-app.session.set设置的flash对象只有下一次请求时有效
-<pre><code>
-  app.session.set(app,{name:'clover-node',flash:'only_next_require'},function(){
-    app.tmpl('index.ejs');
-  });
-  var session_info = app.session.get(app);
+<pre>
+app.session.get(app);
 
-  session_info={
-    name:'clover-node',
-    flash:'only_next_require'//下一次请求有效
-  };
+@return
+json对象
+</pre>
+<pre><code>
+  var session_info = app.session.get(app);
 </code></pre>
 <h4>app.redirect</h4>
 <h4>app.parsecookie</h4>
