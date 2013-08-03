@@ -9,15 +9,15 @@ nodejs框架，帮助用户使用nodejs快速建站，简单、易用、快速�
 使用clover-node，需要包含config.js和/system文件夹下的所有文件。<hr>
 新建一个主入口文件，app.js<br/>
 <pre>
-<code>
+
 //app.js
 var app = require("./system/modules/clover.js");
 app.listen(app.cfg.port, app.cfg.host);
-</code>
+
 </pre>
 新建一个应用文件夹app，在app文件夹下新建一个控制器文件handle.js，
 <pre>
-<code>
+
 //handle.js
 
 //函数的第一个参数是当前请求对象
@@ -25,11 +25,11 @@ function index(app){
     console.log(app);
 }
 exports.index=index;
-</code>
+
 </pre>
 在app.js中添加控制器和路由
 <pre>
-<code>
+
 //app.js
 var app = require("./system/modules/clover.js");
 var handle = require('./app/handle.js');//控制器
@@ -37,14 +37,14 @@ var handle = require('./app/handle.js');//控制器
 app.get('/',handle.index);//路由，把根目录路由到handle控制器的index方法
 
 app.listen(app.cfg.port, app.cfg.host);
-</code>
+
 </pre>
 到此一个基本的nodejs服务器就建好了，$ node app开启服务器。
 </p>
 
 <hr>
 <h2>配置项 config.js</h2>
-<pre><code>
+<pre>
   host : 'localhost',
   port : '3000',
   root : '/web/clover-node',
@@ -58,7 +58,7 @@ app.listen(app.cfg.port, app.cfg.host);
   //  expires : 1800,//秒
   //  httponly : 'HttpOnly'//或留空
   // }
-</code></pre>
+</pre>
 配置项属性可以通过app.cfg调用
 <hr>
 <h2>app</h2>
@@ -70,9 +70,9 @@ app.listen(app.cfg.port, app.cfg.host);
 <h4>app.cfg</h4>
 <p>调用config.js</p>
 <h4>app.tmpl</h4>
-<pre><code>
+<pre>
   app.tmpl('index.ejs',{name:'clover-node'});
-</code></pre>
+</pre>
 <h4>app.session</h4>
 <pre>
 app.session.set(app,data,callback);
@@ -80,20 +80,20 @@ app.session.set(app,data,callback);
 @param 
 data：一个json对象，data.flash 只有下一次请求时有效
 </pre>
-<pre><code>
+<pre>
   app.session.set(app,{name:'clover-node'},function(){
     app.tmpl('index.ejs');
   });
-</code></pre>
+</pre>
 <pre>
 app.session.get(app);
 
 @return
 json对象
 </pre>
-<pre><code>
+<pre>
   var session_info = app.session.get(app);
-</code></pre>
+</pre>
 <h4>app.redirect</h4>
 <h4>app.parsecookie</h4>
 <h4>app.querystring</h4>
@@ -108,15 +108,15 @@ json对象
 对象
 
 clover对象<br/>
-<code>
+
 app = {<br/>
   get : function,  //监听get事件<br/>
   post : function  //监听post事件<br/>
 }
-</code>
+
 
 server对象<br/>
-<code>
+
 app = {<br/>
   cfg : {<br/>
     host : 'localhost',  //主机名，127.0.0.1<br/>
@@ -149,7 +149,7 @@ app = {<br/>
   parsecookie : {},  //node parsecookie<br/>
   querystring : {}  //node querystring<br/>
 }
-</code>
+
 
 
 <hr>
@@ -159,42 +159,41 @@ app = {<br/>
 函数
 
 路由<br/>
-<code>
+
 /js/server/router.js
-</code>
+
 
 控制器<br/>
-<code>
+
 /js/modules/handle.js<br/>
 app.get('/',handle.index);
-</code>
+
 
 模板<br/>
-<code>
+
 /js/modules/tmpl.js<br/>
 app.tmpl('/theme/me/index.html',{data : data});
-</code>
+
 
 session<br/>
-<code>
+
 /js/modules/sessions.js<br/>
 app.session.get(app,function(session){});  //返回session 或 false<br/>
 app.session.set(app,[{data : data}]);  //参数二[ 为空->新建session || 包含sid属性->更新session || 不包含sid属性->新建session并添加data属性到session]<br/>
 app.session.remove(app,session_id)
-</code>
+
 
 mender<br/>
-<code>
+
 /js/modules/mender.js<br/>
 app.mender.merge(obj,objCover,...);  <br/>
 app.mender.dbDateSplit(r,collection);  参数r -> app.db().find(function(r){}) 回调函数的参数r; collection -> 查询的列
 app.mender.arrUnique(arr);
-</code>
+
 <hr>
 
 
 html页面<br/>
 \<script src="/theme/me/include/js/mender.js" type="text/javascript" ></script><br/>
-<code>
+
 var tmpldata= mender.parsequery('{{tmpldata}}');  //接受后台tmpl()过来的data，并解析<br/>
-</code>
