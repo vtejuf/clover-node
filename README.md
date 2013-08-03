@@ -9,15 +9,12 @@ nodejs框架，帮助用户使用nodejs快速建站，简单、易用、快速�
 使用clover-node，需要包含config.js和/system文件夹下的所有文件。<hr>
 新建一个主入口文件，app.js<br/>
 <pre>
-
 //app.js
 var app = require("./system/modules/clover.js");
 app.listen(app.cfg.port, app.cfg.host);
-
 </pre>
 新建一个应用文件夹app，在app文件夹下新建一个控制器文件handle.js，
 <pre>
-
 //handle.js
 
 //函数的第一个参数是当前请求对象
@@ -25,11 +22,9 @@ function index(app){
     console.log(app);
 }
 exports.index=index;
-
 </pre>
 在app.js中添加控制器和路由
 <pre>
-
 //app.js
 var app = require("./system/modules/clover.js");
 var handle = require('./app/handle.js');//控制器
@@ -37,7 +32,6 @@ var handle = require('./app/handle.js');//控制器
 app.get('/',handle.index);//路由，把根目录路由到handle控制器的index方法
 
 app.listen(app.cfg.port, app.cfg.host);
-
 </pre>
 到此一个基本的nodejs服务器就建好了，$ node app开启服务器。
 </p>
