@@ -1,14 +1,22 @@
-clover-node
-===========
-
-一个简单的node web框架，模板直接使用html，html需要载入jquery以及jquery.tmpl插件，html通过{{tmpldata}}接收来自node tmpl()函数的数据,{{cfg.属性}}接收来自config文件的属性，如{{theme}}/css/styles.css;
-
-simple node frame
-
-
+<h2>clover-node</h2>
 <hr>
+<p>
+nodejs框架，帮助用户使用nodejs快速建站，简单、易用、快速开发<br/>
+页面使用ejs模板引擎<a herf='https://github.com/visionmedia/ejs'><cite>ejs api</cite></a><br/>
+数据库使用mongodb<a herf='http://mongodb.github.io/node-mongodb-native/contents.html#node-js-mongodb-driver-manual-contents'><cite>mongodb api</cite></a>
+</p>
+<hr>
+<p>
+使用clover-node，需要包含config.js和/system文件夹下的所有文件。<hr>
+新建一个主入口文件，app.js<br/>
+<code>
+  //app.js
+  var app = require("./system/modules/clover.js");
+  app.listen(app.cfg.port, app.cfg.host);
+</code>
 
-
+{{cfg.属性}}接收来自config文件的属性，如{{theme}}/css/styles.css;
+</p>
 
 对象
 
@@ -101,5 +109,5 @@ app.mender.arrUnique(arr);
 html页面<br/>
 \<script src="/theme/me/include/js/mender.js" type="text/javascript" ></script><br/>
 <code>
-var tmpldata= mender.parsequery('{{tmpldata}}');	//接受后台tmpl()过来的data，并解析<br/>
+var tmpldata= mender.parsequery('{{tmpldata}}');  //接受后台tmpl()过来的data，并解析<br/>
 </code>
