@@ -40,7 +40,7 @@ app.get('/',handle.index);//路由，把根目录路由到handle控制器的inde
 app.listen(app.cfg.port, app.cfg.host);
 </code>
 </pre>
-到此一个基本的nodejs服务器就建好了，$node app开启服务器。
+到此一个基本的nodejs服务器就建好了，$ node app开启服务器。
 </p>
 {{cfg.属性}}接收来自config文件的属性，如{{theme}}/css/styles.css;
 
