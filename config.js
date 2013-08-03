@@ -6,7 +6,6 @@ module.exports = {
 	dbhost : '127.0.0.1',
 	dbport : '27017',
 	dbname : 'cars',
-	notfound : '/theme/newcar/404.html',
 	crypto_key:'vtejuf33clover',
 	// session : {
 	// 	name:'car_sessions',

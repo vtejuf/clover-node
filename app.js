@@ -9,6 +9,6 @@ app.get('/go',me.go);
 app.get('/',handle.index);
 app.get('/result',handle.result);
 app.get('/search',handle.search);
-app.get('/(:any)',me.index);
+app.get('/(:any)',me.notfonund);
 
 app.listen(app.cfg.port, app.cfg.host);

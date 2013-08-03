@@ -27,9 +27,14 @@ function more(app,arg1,arg2){
 	app.tmpl(app.cfg.theme+'/go.ejs',{'name':'good one'});
 }
 
+function notfonund(app){
+	app.tmpl('/theme/newcar/404.html');
+}
+
 module.exports = {
 	index : index,
 	go : go,
 	img : img,
-	more : more
+	more : more,
+	notfonund : notfonund
 }
