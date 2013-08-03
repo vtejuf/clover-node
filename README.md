@@ -32,8 +32,8 @@ exports.index=index;
 <code>
 //app.js
 var app = require("./system/modules/clover.js");
-
 var handle = require('./app/handle.js');//控制器
+
 app.get('/',handle.index);//路由，把根目录路由到handle控制器的index方法
 
 app.listen(app.cfg.port, app.cfg.host);
@@ -68,8 +68,30 @@ app.listen(app.cfg.port, app.cfg.host);
 <h4>app.listen</h4>
 <p>控制器 handle.js里的app对象</p>
 <h4>app.cfg</h4>
+<p>调用config.js</p>
 <h4>app.tmpl</h4>
+<pre><code>
+  app.tmpl('index.ejs',{name:'clover-node'});
+</code></pre>
 <h4>app.session</h4>
+<pre><code>
+  app.session.set(app,{name:'clover-node'},function(){
+    app.tmpl('index.ejs');
+  });
+  var session_info = app.session.get(app);
+</code></pre>
+app.session.set设置的flash对象只有下一次请求时有效
+<pre><code>
+  app.session.set(app,{name:'clover-node',flash:'only_next_require'},function(){
+    app.tmpl('index.ejs');
+  });
+  var session_info = app.session.get(app);
+
+  session_info={
+    name:'clover-node',
+    flash:'only_next_require'//下一次请求有效
+  };
+</code></pre>
 <h4>app.redirect</h4>
 <h4>app.parsecookie</h4>
 <h4>app.querystring</h4>
@@ -79,7 +101,6 @@ app.listen(app.cfg.port, app.cfg.host);
 <h2>db</h2>
 <hr>
 <h2>ejs</h2>
-
 {{cfg.属性}}接收来自config文件的属性，如{{theme}}/css/styles.css;
 
 对象
