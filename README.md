@@ -69,7 +69,7 @@ app.get(path,handle);
 
 app.get('/version/(:any)/(:any)',handle.version);//version(app,any1,any2);
 app.get('/name',handle.clover);//clover(app);
-app.get('/(:any)',handle.page_not_found);//clover(app,any);
+app.get('(:default)',handle.page_not_found);//clover(app);
 </pre>
 app.get(/(:any),func);路径中所有的(:any)都作为操作函数的参数，从第二个参数开始
 <h4>app.post</h4>
