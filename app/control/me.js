@@ -28,7 +28,7 @@ function more(app,arg1,arg2){
 }
 
 function notfonund(app){
-	app.tmpl('/theme/newcar/404.html');
+	app.tmpl(app.cfg.theme+'/404.html');
 }
 
 module.exports = {

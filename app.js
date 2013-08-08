@@ -22,6 +22,6 @@ app.get('/admin',admin.index);
 app.get('/result',handle.result);
 app.get('/search',handle.search);
 app.get('/',handle.index);
-app.get('/(:default)',me.notfonund);
+app.get('(:default)',me.notfonund);
 
 app.listen(app.cfg.port, app.cfg.host);

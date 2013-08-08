@@ -33,6 +33,8 @@ function router(app){
 						});
 					});
 					break;
+				}else{
+					app._get['(:default)'](app);
 				}
 			}
 		}
