@@ -1,6 +1,7 @@
 var router = require('../server/router.js');
 
 function redirect(app,to_link) {
+	app.req.method = 'GET';
 	var spt = to_link.indexOf('?');
 	if(spt){
 		var arr = to_link.split('?');

@@ -23,16 +23,6 @@ module.exports = {
 		inp= merge.apply(null,n);
 		return inp;
 	},
-	
-	dbDataSplit : function(r,collection){
-		var data = [],
-			obj = {};
-		r.documents.forEach(function(s){
-			data.push(s[collection]);
-		});
-		obj[collection] = data;
-		return obj;
-	},
 
 	arrUnique : function(arr) {
 		var res = [], hash = {};

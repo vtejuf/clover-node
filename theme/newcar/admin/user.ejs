@@ -1,0 +1,43 @@
+<% include header.ejs %>
+<body>
+<div class='warper1000'>
+<% include left_side.ejs %>
+
+  <div style='width:800px;float:left;padding:15px;'>
+  <form action='/admin/add_user' method='post'>
+<!--add_user-->
+<label>用户名：</label>
+<input type='text' name='name'/>
+<label>密码：</label>
+<input type='text' name='pw'/>
+<label>用户组：</label>
+<select type='text' name='group'>
+	<option value='1'>游客</option>
+	<option value='2'>注册用户</option>
+	<option value='9'>超级管理员</option>
+</select>
+<label></label>
+<input type='submit' value='新增用户'/>
+</form>
+<div>用户列表</div>
+<% if(user_list){ %>
+<ul>
+	<% user_list.forEach(function(user){ %>
+		<li>
+			<span><%= user.name %></span>
+			<span>
+				<% user.group=(user.group==9)?'超级管理员':(user.group==2)?'注册用户':'游客'; %>
+				<%= user.group %>
+			</span>
+			<span><%= user.date %></span>
+		</li>
+	<% }); %>
+</ul>
+<% } %>
+  </div>
+</div>
+<script type="text/javascript">
+  $('.user').addClass('active');
+</script>
+</body>
+</html>

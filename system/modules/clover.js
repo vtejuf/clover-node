@@ -5,6 +5,7 @@ var tmpl = require('./tmpl.js');
 var router = require('../server/router.js');
 var mender = require("./mender.js");
 var redirect = require("./redirect.js");
+var location = require("./location.js");
 var session = require('./sessions.js');
 var parsecookie = require('./cookies.js');
 var querystring = require('querystring');
@@ -21,6 +22,7 @@ clover.prototype._post = clover.prototype._post || {};
 clover.prototype.session = session;
 clover.prototype.mender = mender;
 clover.prototype.redirect = redirect;
+clover.prototype.location = location;
 clover.prototype.parsecookie = parsecookie;
 clover.prototype.querystring = querystring;
 

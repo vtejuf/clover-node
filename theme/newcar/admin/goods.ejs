@@ -1,0 +1,42 @@
+<% include header.ejs %>
+<style>
+.goods-list li{cursor:pointer;}
+.goods-list-active{background:#3399FF;color:#fff;}
+</style>
+<body>
+<div class='warper1000'>
+<% include left_side.ejs %>
+  <div style='width:800px;float:left;padding:15px;'>
+  <a class='add btn' href='javascript:;'>新增</a>
+  <a class='move btn' href='javascript:;'>批量修改</a>
+  <a class='delete btn' href='javascript:;'>删除</a>
+  </div>
+	<div style='width:800px;float:left;padding:0 15px;height:500px;overflow:auto;'>
+
+		<ul class='goods-list'>
+		<li>admin_goods</li>
+		</ul>
+
+	</div>
+</div>
+
+<div class='edit display-n'>
+  <form action='' method='post'></form>
+</div>
+<% include footer.ejs %>
+
+<script type="text/javascript">
+  $('.goods').addClass('active');
+
+    jQuery(document).on('click','.goods-list li',function(){
+        $(this).hasClass('goods-list-active')?
+        $(this).removeClass('goods-list-active'):
+        $(this).addClass('goods-list-active');
+    });
+    jQuery(document).on('dblclick','.goods-list li',function(e){
+        $(this).siblings().removeClass('goods-list-active');
+      	e.preventDefault();
+    });
+</script>
+</body>
+</html>

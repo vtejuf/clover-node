@@ -11,9 +11,9 @@
     "url": "https://github.com/vtejuf/clover-node"
   },
   "dependencies": {
-    "mongous": "0.2.4",
     "bson":"",
-    "mongodb":""
+    "mongodb":"",
+    "ejs":""
   },
   "keywords": [
     "node"

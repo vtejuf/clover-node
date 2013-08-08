@@ -9,6 +9,7 @@ var _unshift = [].unshift;
 function router(app){
 	var method = app.req.method;
 	var pathname = decodeURI(app.url.pathname);
+	pathname = (pathname.length>1 && pathname.slice(-1)==='/')?pathname.slice(0,-1):pathname;
 
 	if(method === 'GET'){
 		if(typeof app._get[pathname] === 'function'){
@@ -36,9 +37,10 @@ function router(app){
 			}
 		}
 	}else if(method === 'POST'){
-		app.session.init(app,function(){
-			posts(app);
-		});
+		posts(app);
+		// app.session.init(app,function(){
+			// posts(app);
+		// });
 	}
 };
 

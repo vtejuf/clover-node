@@ -1,0 +1,146 @@
+<% include header.ejs %>
+<style>
+.cats-list li{cursor:pointer;}
+.cats-list li span{padding:0 15px;}
+.cats-list-active{background:#3399FF;color:#fff;}
+.edit, .add-form, .edit-all{background:url("{{theme}}/images/bg.jpg") repeat;position:fixed;z-index:9999;border:1px solid #ddd;border-radius:4px;padding:10px;width:220px;}
+</style>
+<body>
+
+<div class='warper1000'>
+  <% include left_side.ejs %>
+  <div style='width:800px;float:left;padding:15px;'>
+  <a class='add-cat btn' href='javascript:;'>新增</a>
+  <a class='move-cats btn' href='javascript:;'>批量修改</a>
+  <a class='delete-cats btn' href='javascript:;'>删除</a>
+  </div>
+
+  <div style='width:800px;float:left;padding:0 15px;height:500px;overflow:auto;'>
+  	<% if (cats.length) { %>
+	<ul class='cats-list'>
+	<% cats.forEach(function(cat){ %>
+	<li>
+		<span><%= cat._id %></span>
+		<span><%= cat.from_site %></span>
+		<span><%= cat.level %></span>
+		<span><%= cat.name %></span>
+    <% if(cat.parent_auto_motive_id){ %>
+      <span><%= cat.parent_auto_motive_id %></span>
+    <% } %>
+	</li>
+	<% }); %>
+	</ul>
+	<% } %>
+  </div>
+
+</div>
+
+<form id='edit' class='edit display-n' action='/admin/edit/cats' method='post'>
+<input type='text' name='_id' value='' placeholder='_id'/>
+<input type='text' name='from_site' value='' placeholder='from_site'/>
+<input type='text' name='level' value='' placeholder='level'/>
+<input type='text' name='name' value='' placeholder='name'/>
+<input type='text' name='parent_auto_motive_id' value='' placeholder='parent_auto_motive_id'/>
+<hr style='margin:10px 0;'>
+<button type='submit' class='btn btn-primary float-right'>确定</button>
+<a class='btn cancel' data-cancel='edit' href='javascript:;'>取消</a>
+</form>
+
+<form id='editAll' class='edit-all display-n' action='/admin/edit_all/cats' method='post'>
+<input type='text' name='_id' value='' placeholder='_id'/>
+<input type='text' name='from_site' value='' placeholder='from_site'/>
+<input type='text' name='level' value='' placeholder='level'/>
+<input type='text' name='name' value='' placeholder='name'/>
+<input type='text' name='parent_auto_motive_id' value='' placeholder='parent_auto_motive_id'/>
+<input type='hidden' name='ids' value=''/>
+<hr style='margin:10px 0;'>
+<button type='submit' class='btn btn-primary float-right'>确定</button>
+<a class='btn cancel' data-cancel='editAll' href='javascript:;'>取消</a>
+</form>
+
+
+
+<form id='addForm' class='add-form display-n' action='/admin/add/cats' method='post'>
+<input type='text' name='from_site' value='' placeholder='from_site'/>
+<input type='text' name='level' value='' placeholder='level'/>
+<input type='text' name='name' value='' placeholder='name'/>
+<input type='text' name='parent_auto_motive_id' value='' placeholder='parent_auto_motive_id'/>
+<input type='text' name='link' value='' placeholder='link'/>
+<input type='text' name='url' value='' placeholder='url'/>
+<hr style='margin:10px 0;'>
+<button type='submit' class='btn btn-primary float-right'>确定</button>
+<a class='btn cancel' data-cancel='addForm' href='javascript:;'>取消</a>
+</form>
+
+<% include footer.ejs %>
+
+<script type="text/javascript">
+  	$('.cats').addClass('active');
+
+    jQuery(document).on('click','.cats-list li',function(){
+        var _self = $(this);
+        _self.hasClass('cats-list-active')?
+        _self.removeClass('cats-list-active'):
+        _self.addClass('cats-list-active');
+    });
+    jQuery(document).on('dblclick','.cats-list li',function(e){
+        var _self = $(this);
+        _self.siblings().removeClass('cats-list-active');
+      	e.preventDefault();
+        var fields = _self.children('span');
+        var inputs = $('.edit').children('input');
+        var l = inputs.length,i=0;
+        for(;i<l;i++){
+          var str = $(fields[i]).text();
+          $(inputs[i]).attr('value',str);
+        }
+        $('.edit').removeClass(' display-n');
+    });
+
+    $('.add-cat').click(function(){
+      $('.add-form').removeClass(' display-n');  
+    });
+
+    $('.delete-cats').click(function(){
+      var list= $('.cats-list li.cats-list-active');
+      var i =0,l=list.length;
+      var arr=[];
+      if(l===0){
+        alert('没有选中的数据');
+        return false;
+      }
+      for(;i<l;i++){
+        var span = $(list[i]).children('span')[0];
+        arr.push($(span).text());
+      }
+      var idl = arr.length;
+      var firm = confirm('确定要删除这'+idl+'条数据');
+      if(!firm){
+        return false;
+      }
+      arr = arr.join(',');
+      $.post('/admin/del/cats',{"ids":arr},function(data){
+        $('body').append(data);
+      });
+    });
+
+    $('.move-cats').click(function(){
+      var list= $('.cats-list li.cats-list-active');
+      var i =0,l=list.length;
+      var arr=[];
+      if(l===0){
+        alert('没有选中的数据');
+        return false;
+      }
+      for(;i<l;i++){
+        var span = $(list[i]).children('span')[0];
+        arr.push($(span).text());
+      }
+      arr = arr.join(',');
+      var edit_all = $('.edit-all');
+      edit_all.children('input[name="ids"]').val(arr);
+      edit_all.removeClass('display-n');
+    });
+</script>
+</body>
+</html>
