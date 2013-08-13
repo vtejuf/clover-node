@@ -67,6 +67,22 @@ function get_position(callback,pid,position){
 		});
 	});
 }
+
+function parts_search(callback,reg){
+	db(cfg.dbname).open(function(err,db){
+		db.collection('parts').find({
+			$or:[
+			{brand:reg},
+			{category:reg},
+			{name:reg}
+			]
+		},{fields:{_id:0,category:1,brand:1,from_site:1,name:1,price:1,small_image_url:1,url:1,comment_info:1}}).toArray(function(err,result){
+			db.close();
+			callback(err,result);
+		});
+	});
+	// console.log();
+}
 //
 
 
@@ -76,5 +92,6 @@ module.exports = {
 	get_brands_by_pid : get_brands_by_pid,
 	get_parts_by_category : get_parts_by_category,
 	get_parts_by_brand : get_parts_by_brand,
-	get_position : get_position
+	get_position : get_position,
+	parts_search : parts_search
 }

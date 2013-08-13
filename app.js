@@ -20,7 +20,7 @@ app.get('/admin/login',admin.login);
 app.post('/admin/login',admin.login);
 app.get('/admin',admin.index);
 app.get('/result',handle.result);
-app.get('/search',handle.search);
+app.post('/search',handle.search);
 app.get('/',handle.index);
 app.get('(:default)',me.notfonund);
 

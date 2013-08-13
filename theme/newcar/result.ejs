@@ -32,8 +32,8 @@
   
 	<div class='header'>
 		<a class='logo' href='/'><img src='{{theme}}/images/logo.png'/></a>
-		<form class="form-search form-inline" methpd='get' action='/search'>
-			<input type="text" class="input-medium search-query" name='query' placeholder='请输入品牌'>
+		<form class="form-search form-inline" method='post' action='/search'>
+			<input type="text" class="input-medium search-query" name='query' placeholder='请输入关键词 用空格隔开'>
 			<button type="submit" class="btn btn-primary">直接搜索</button>
 	    </form>
 	</div>
@@ -48,37 +48,22 @@
 				<span class='float-right go-top'>返回顶部</span>
 				<strong>
 					<%if(search){%>
-						<%= brand %>
+						<%= query %>
 					<%}else{%>
 						<%= category %>
 					<%}%></strong>
 			</div>
 			<div class='result-list'>
-				<ul>
 				<% if (search){%>
-				<% if (types.length) { %>
-				<% types.forEach(function(type){ %>
-					<li>
-						<div class='makes'>
-							<%= type.type %>
-							<span class='float-right'>
-							最高人气：<%= type.parts[0].comment_info %>
-							</span>
-							<i class='float-right'>
-								&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-							</i>
-							<span class='float-right'>
-							（<%= type.parts.length %>）件商品在售
-							</span>
-						</div>
-						<table>
+					<table style='display:block;'>
 						<tr>
 							<th style='width:480px'>产品名称</th>
 							<th style='width:80px'>价格</th>
 							<th style='width:40px'>人气</th>
 							<th>来源</th>
 						</tr>
-						<% type.parts.forEach(function(part){ %>
+						<% if (parts.length) { %>
+						<% parts.forEach(function(part){ %>
 						<tr>
 							<td class='td-first' style='width:480px'>
 								<strong>
@@ -98,13 +83,11 @@
 							</td>
 						</tr>
 				  		<% }) %>
-				  		</table>
-					</li>
-				<% }) %>
+				  	</table>
 				<% } %>
 
 				<% }else{ %>
-
+				<ul>
 				<% if (brands.length) { %>
 				<% brands.forEach(function(brand){ %>
 					<li>
