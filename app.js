@@ -16,6 +16,7 @@ app.post('/admin/add_user',admin.add_user);
 app.get('/admin/user',admin.user);
 app.get('/admin/cats',admin.cats);
 app.get('/admin/goods',admin.goods);
+app.get('/admin/logout',admin.logout);
 app.get('/admin/login',admin.login);
 app.post('/admin/login',admin.login);
 app.get('/admin',admin.index);

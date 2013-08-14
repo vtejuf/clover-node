@@ -77,7 +77,7 @@ var session = {
 			var option = {wtimeout:15, fsync:true, safe:true};
 			db(dbname).open(function(err,db){
 				db.collection(collection_name).findAndRemove(where, [['_id', 1]], option, function(err,doc){
-				app.res.setHeader("Set-Cookie", [collection_name+'=']);
+				app.res.setHeader("Set-Cookie", [collection_name+'='+';expires='+new Date()]);
 				db.close();
 				callback();
 				});

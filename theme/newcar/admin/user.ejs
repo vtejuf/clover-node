@@ -1,6 +1,7 @@
 <% include header.ejs %>
 <body>
 <div class='warper1000'>
+<a href='/admin/logout'>注销用户</a>
 <% include left_side.ejs %>
 
   <div style='width:800px;float:left;padding:15px;'>
@@ -9,7 +10,8 @@
 <label>用户名：</label>
 <input type='text' name='name'/>
 <label>密码：</label>
-<input type='text' name='pw'/>
+<input type='text' class='pw'/>
+<input type='hidden' name='pw'/>
 <label>用户组：</label>
 <select type='text' name='group'>
 	<option value='1'>游客</option>
@@ -36,8 +38,14 @@
 <% } %>
   </div>
 </div>
+<script type="text/javascript" src='{{theme}}/js/javascript.sha1.js'></script>
 <script type="text/javascript">
   $('.user').addClass('active');
+  $('.pw').blur(function(){
+  	var val = $(this).val();
+  	val = b64_sha1(val);
+  	$(this).next().val(val);
+  });
 </script>
 </body>
 </html>

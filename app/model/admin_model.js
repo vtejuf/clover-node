@@ -3,8 +3,8 @@ var db = require(cfg.root+'/system/server/db.js');
 var OID = db.prototype.supply.ObjectID;
 
 function login(callback,user){
-	db('cars').open(function(err,db){
-		db.collection('user').findOne(user,{fields:{name:1,group:1,date:1}},function(err,item){
+	db(cfg.dbname).open(function(err,db){
+		db.collection('users').findOne({name:user.name},{fields:{pw:1,name:1,group:1,date:1}},function(err,item){
 			db.close();
 			callback(err,item);
 		});
@@ -12,7 +12,7 @@ function login(callback,user){
 }
 
 function get_categorys(callback,pid){
-	db('cars').open(function(err,db){
+	db(cfg.dbname).open(function(err,db){
 		db.collection('cats').find({},{fields:{_id:1,from_site:1,level:1,name:1,parent_auto_motive_id:1}}).toArray(function(err,doc){
 			doc.forEach(function(s){
 				s.parent_auto_motive_id=s.parent_auto_motive_id?s.parent_auto_motive_id:'';
@@ -24,8 +24,8 @@ function get_categorys(callback,pid){
 }
 
 function user_list(callback){
-	db('cars').open(function(err,db){
-		db.collection('user').find({},{fields:{name:1,group:1,date:1}}).toArray(function(err,doc){
+	db(cfg.dbname).open(function(err,db){
+		db.collection('users').find({},{fields:{name:1,group:1,date:1}}).toArray(function(err,doc){
 			db.close();
 			callback(err,doc);
 		});
@@ -37,10 +37,10 @@ function add_user(callback,user){
 		return false;
 	}
 	user.date = new Date();
-	db('cars').open(function(err,db){
-		db.collection('user').findOne({name:user.name},function(err,item){
+	db(cfg.dbname).open(function(err,db){
+		db.collection('users').findOne({name:user.name},function(err,item){
 			if(!item){
-				db.collection('user').insert(user,function(err,result){
+				db.collection('users').insert(user,function(err,result){
 					db.close();
 					callback(err,result);
 				});

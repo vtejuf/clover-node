@@ -8,6 +8,7 @@
 <body>
 
 <div class='warper1000'>
+  <a href='/admin/logout'>注销用户</a>
   <% include left_side.ejs %>
   <div style='width:800px;float:left;padding:15px;'>
   <a class='add-cat btn' href='javascript:;'>新增</a>
@@ -36,7 +37,9 @@
 </div>
 
 <form id='edit' class='edit display-n' action='/admin/edit/cats' method='post'>
-<input type='text' name='_id' value='' placeholder='_id'/>
+<label class='id-title'></label>
+<hr>
+<input type='hidden' name='_id' value='' placeholder='_id'/>
 <input type='text' name='from_site' value='' placeholder='from_site'/>
 <input type='text' name='level' value='' placeholder='level'/>
 <input type='text' name='name' value='' placeholder='name'/>
@@ -47,7 +50,6 @@
 </form>
 
 <form id='editAll' class='edit-all display-n' action='/admin/edit_all/cats' method='post'>
-<input type='text' name='_id' value='' placeholder='_id'/>
 <input type='text' name='from_site' value='' placeholder='from_site'/>
 <input type='text' name='level' value='' placeholder='level'/>
 <input type='text' name='name' value='' placeholder='name'/>
@@ -90,10 +92,13 @@
         var fields = _self.children('span');
         var inputs = $('.edit').children('input');
         var l = inputs.length,i=0;
+        var id_title='';
         for(;i<l;i++){
+          id_title = id_title || $(fields[i]).text();
           var str = $(fields[i]).text();
-          $(inputs[i]).attr('value',str);
+          $(inputs[i]).val(str);
         }
+        $('.id-title').empty().append("_id:<i>"+id_title+"</i>");
         $('.edit').removeClass(' display-n');
     });
 

@@ -2,9 +2,18 @@
 <div class='warper1000'>
 	<form method='post' action='/admin/login'>
 		<input name='name' type='text'/>
-		<input name='pw' type='text'/>
+		<input class='pw' type='text'/>
+		<input name='pw' type='hidden'/>
 		<input type='submit' value='登录'/>
 	</form>
 </div>
 </body>
+<script type="text/javascript" src='{{theme}}/js/javascript.sha1.js'></script>
+<script type="text/javascript">
+  $('.pw').blur(function(){
+  	var val = $(this).val();
+  	val = b64_sha1(val);
+  	$(this).next().val(val);
+  });
+</script>
 </html>

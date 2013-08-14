@@ -1,11 +1,14 @@
 var admin_model = require('../model/admin_model.js');
 var cfg = require('../../config.js');
+var crypto = require(cfg.root+'/system/modules/crypto');
 var header_path = cfg.root+cfg.theme+'/admin/header.ejs';
 
 function index(app){
 	var session_info = app.session.get(app);
 	if(!session_info || +session_info.group !== 9){
-		app.location(app,'/admin/login');
+		app.session.set(app,'',function(){
+			app.location(app,'/admin/login');
+		});
 		return;
 	}
 	app.tmpl(app.cfg.theme+'/admin/admin.ejs',{filename:header_path});
@@ -19,7 +22,7 @@ function login(app){
 	}
 	if(app.postdata){
 		admin_model.login(function(err,item){
-			if(item){
+			if(item && app.postdata.pw === crypto.de_code(item.pw)){
 				item.loged = 1;
 				app.session.set(app,item,function(){
 					app.location(app,'/admin');
@@ -35,7 +38,9 @@ function login(app){
 function cats(app){
 	var session_info = app.session.get(app);
 	if(!session_info || +session_info.group !== 9){
-		app.location(app,'/admin/login');
+		app.session.set(app,'',function(){
+			app.location(app,'/admin/login');
+		});
 		return;
 	}
 	admin_model.get_categorys(function(err,doc){
@@ -46,7 +51,9 @@ function cats(app){
 function goods(app){
 	var session_info = app.session.get(app);
 	if(!session_info || +session_info.group !== 9){
-		app.location(app,'/admin/login');
+		app.session.set(app,'',function(){
+			app.location(app,'/admin/login');
+		});
 		return;
 	}
 	app.tmpl(app.cfg.theme+'/admin/goods.ejs',{filename:header_path});
@@ -55,7 +62,9 @@ function goods(app){
 function user(app){
 	var session_info = app.session.get(app);
 	if(!session_info || +session_info.group !== 9){
-		app.location(app,'/admin/login');
+		app.session.set(app,'',function(){
+			app.location(app,'/admin/login');
+		});
 		return;
 	}
 	admin_model.user_list(function(err,doc){
@@ -66,9 +75,12 @@ function user(app){
 function add_user(app){
 	var session_info = app.session.get(app);
 	if(!session_info || +session_info.group !== 9){
-		app.location(app,'/admin/login');
+		app.session.set(app,'',function(){
+			app.location(app,'/admin/login');
+		});
 		return;
 	}
+	app.postdata.pw = crypto.en_code(app.postdata.pw);
 	admin_model.add_user(function(err,doc){
 		app.location(app,'/admin/user');
 	},app.postdata);
@@ -113,6 +125,12 @@ function edit_all(app,type){
 	app.location(app,'/admin/'+type);
 }
 
+function logout(app){
+	app.session.set(app,'',function(){
+		app.location(app,'/admin/login');
+	});
+	return;
+}
 module.exports = {
 	index : index,
 	login : login,
@@ -123,5 +141,6 @@ module.exports = {
 	edit : edit,
 	add : add,
 	del : del,
-	edit_all : edit_all
+	edit_all : edit_all,
+	logout : logout
 }
