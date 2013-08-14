@@ -73,11 +73,14 @@ var session = {
 			return;
 		}
 		if(!data && !!this.sid){
+			var delTime = new Date().getTime() -10000000;
+			var del_date = new Date(delTime);
+			var delDate = del_date.toGMTString();
 			var where = {'_id':OID(this.sid)};
 			var option = {wtimeout:15, fsync:true, safe:true};
 			db(dbname).open(function(err,db){
 				db.collection(collection_name).findAndRemove(where, [['_id', 1]], option, function(err,doc){
-				app.res.setHeader("Set-Cookie", [collection_name+'='+';expires='+new Date()]);
+				app.res.setHeader("Set-Cookie", [collection_name+'='+';expires='+delDate]);
 				db.close();
 				callback();
 				});
