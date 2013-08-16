@@ -114,7 +114,7 @@ app.session.get(app);
 var session_info = app.session.get(app);
 </pre>
 <h4>app.redirect</h4>
-页面跳转
+请求转移，页面不跳转
 <pre>
 app.redirect(app,url);
 
@@ -123,6 +123,27 @@ app.redirect(app,url);
     url:跳转的地址
 
 app.redirect(app,'/redirect?q=somequery');
+</pre>
+<h4>app.location</h4>
+页面跳转
+<pre>
+app.location(app,url);
+
+@param
+    app:clover-node的app请求对象
+    url:跳转的地址
+
+app.location(app,'/location?q=somequery');
+</pre>
+<h4>app.send</h4>
+发送字符串到前端
+<pre>
+app.send(string);
+
+@param
+    string:发送的字符串
+
+app.send('{"success":1}');
 </pre>
 <h4>app.parsecookie</h4>
 解析当前所有cookie
