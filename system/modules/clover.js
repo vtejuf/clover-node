@@ -25,6 +25,10 @@ clover.prototype.redirect = redirect;
 clover.prototype.location = location;
 clover.prototype.parsecookie = parsecookie;
 clover.prototype.querystring = querystring;
+clover.prototype.send = function(data){
+	this.res.write(data);
+	this.res.end();
+}
 
 function _server(req,res){
 	var app = new clover(req,res);

@@ -1,0 +1,191 @@
+<% include header.ejs %>
+<style>
+.goods-list li{cursor:pointer;}
+.cats-list li span{padding:0 15px;}
+.goods-list-active{background:#3399FF;color:#fff;}
+.edit, .add-form, .edit-all{background:url("{{theme}}/images/bg.jpg") repeat;position:fixed;z-index:9999;border:1px solid #ddd;border-radius:4px;padding:10px;width:220px;}
+</style>
+<body>
+<div class='warper1000'>
+<a href='/admin/logout'>注销用户</a>
+<% include left_side.ejs %>
+
+  <div style='width:800px;float:left;padding:0 15px;'>
+    <form id='searchGoods'>
+      <label>输入要修改的产品的ID、分类ID、名称搜索</label>
+      <input type='text' name='query'style='margin:0;'>
+      <input type='button' value='查询' class='btn search-goods'>
+    </form>
+  </div>
+
+  <div style='width:800px;float:left;padding:15px;'>
+  <a class='add-goods btn' href='javascript:;'>新增</a>
+  <a class='move-goods btn' href='javascript:;'>批量修改</a>
+  <a class='delete-goods btn' href='javascript:;'>删除</a>
+  </div>
+	<div style='width:800px;float:left;padding:0 15px;height:500px;overflow:auto;'>
+  <ul class='goods-list'>
+  </ul>
+	</div>
+</div>
+
+
+<form id='edit' class='edit display-n' action='/admin/edit/parts' method='post'>
+<label class='id-title'></label>
+<hr>
+<input type='hidden' name='_id' value='' placeholder='_id'/>
+<input type='text' name='auto_motive_id' value='' placeholder='auto_motive_id'/>
+<input type='text' name='category' value='' placeholder='category'/>
+<input type='text' name='brand' value='' placeholder='brand'/>
+<input type='text' name='from_site' value='' placeholder='from_site'/>
+<input type='text' name='name' value='' placeholder='name'/>
+<input type='text' name='price' value='' placeholder='price'/>
+<input type='text' name='small_image_url' value='' placeholder='small_image_url'/>
+<input type='text' name='url' value='' placeholder='url'/>
+<input type='text' name='comment_info' value='' placeholder='comment_info'/>
+<hr style='margin:10px 0;'>
+<button type='submit' class='btn btn-primary float-right'>确定</button>
+<a class='btn cancel' data-cancel='edit' href='javascript:;'>取消</a>
+</form>
+
+<form id='editAll' class='edit-all display-n' action='/admin/edit_all/parts' method='post'>
+
+<input type='text' name='auto_motive_id' value='' placeholder='auto_motive_id'/>
+<input type='text' name='category' value='' placeholder='category'/>
+<input type='text' name='brand' value='' placeholder='brand'/>
+<input type='text' name='from_site' value='' placeholder='from_site'/>
+<input type='text' name='name' value='' placeholder='name'/>
+<input type='text' name='price' value='' placeholder='price'/>
+<input type='text' name='small_image_url' value='' placeholder='small_image_url'/>
+<input type='text' name='url' value='' placeholder='url'/>
+<input type='text' name='comment_info' value='' placeholder='comment_info'/>
+<input type='hidden' name='ids' value=''/>
+<hr style='margin:10px 0;'>
+<button type='submit' class='btn btn-primary float-right'>确定</button>
+<a class='btn cancel' data-cancel='editAll' href='javascript:;'>取消</a>
+</form>
+
+
+
+<form id='addForm' class='add-form display-n' action='/admin/add/parts' method='post'>
+<input type='text' name='auto_motive_id' value='' placeholder='auto_motive_id'/>
+<input type='text' name='category' value='' placeholder='category'/>
+<input type='text' name='brand' value='' placeholder='brand'/>
+<input type='text' name='from_site' value='' placeholder='from_site'/>
+<input type='text' name='name' value='' placeholder='name'/>
+<input type='text' name='price' value='' placeholder='price'/>
+<input type='text' name='small_image_url' value='' placeholder='small_image_url'/>
+<input type='text' name='url' value='' placeholder='url'/>
+<input type='text' name='comment_info' value='' placeholder='comment_info'/>
+<hr style='margin:10px 0;'>
+<button type='submit' class='btn btn-primary float-right'>确定</button>
+<a class='btn cancel' data-cancel='addForm' href='javascript:;'>取消</a>
+</form>
+
+<% include footer.ejs %>
+
+
+<script type="text/javascript">
+  $('.goods').addClass('active');
+
+  $('.search-goods').click(function(){
+    var form = $(this).parent('form')[0];
+    var data = $(form).serialize();
+    $.ajax({
+      url:'/admin/parts',
+      type:'post',
+      data:data,
+      dataType:'json',
+      success:function(data){
+      var i=0,l = data.length;
+      var str='';
+      for(;i<l;i++){
+      str+='<li>\
+      <span>'+data[i]._id+'</span><br>\
+      <span>'+data[i].auto_motive_id+'</span><br>\
+      <span>'+data[i].category+'</span><br>\
+      <span>'+data[i].brand+'</span><br>\
+      <span>'+data[i].from_site+'</span><br>\
+      <span>'+data[i].name+'</span><br>\
+      <span>'+data[i].price+'</span><br>\
+      <span>'+data[i].small_image_url+'</span><br>\
+      <span>'+data[i].url+'</span><br>\
+      <span>'+data[i].comment_info+'</span>\
+      </li><hr>';
+      }
+      $('.goods-list').html(str);
+      },
+      error:function(e,r,r){}
+    })
+  }); 
+
+    jQuery(document).on('click','.goods-list li',function(){
+        var _self = $(this);
+        _self.hasClass('goods-list-active')?
+        _self.removeClass('goods-list-active'):
+        _self.addClass('goods-list-active');
+    });
+    jQuery(document).on('dblclick','.goods-list li',function(e){
+        var _self = $(this);
+        _self.siblings().removeClass('goods-list-active');
+        e.preventDefault();
+        var fields = _self.children('span');
+        var inputs = $('.edit').children('input');
+        var l = inputs.length,i=0;
+        var id_title='';
+        for(;i<l;i++){
+          id_title = id_title || $(fields[i]).text();
+          var str = $(fields[i]).text();
+          $(inputs[i]).val(str);
+        }
+        $('.id-title').empty().append("_id:<i>"+id_title+"</i>");
+        $('.edit').removeClass(' display-n');
+    });
+
+    $('.add-goods').click(function(){
+      $('.add-form').removeClass(' display-n');  
+    });
+
+    $('.delete-goods').click(function(){
+      var list= $('.goods-list li.goods-list-active');
+      var i =0,l=list.length;
+      var arr=[];
+      if(l===0){
+        alert('没有选中的数据');
+        return false;
+      }
+      for(;i<l;i++){
+        var span = $(list[i]).children('span')[0];
+        arr.push($(span).text());
+      }
+      var idl = arr.length;
+      var firm = confirm('确定要删除这'+idl+'条数据');
+      if(!firm){
+        return false;
+      }
+      arr = arr.join(',');
+      $.post('/admin/del/parts',{"ids":arr},function(data){
+        $('body').append(data);
+      });
+    });
+
+    $('.move-goods').click(function(){
+      var list= $('.goods-list li.goods-list-active');
+      var i =0,l=list.length;
+      var arr=[];
+      if(l===0){
+        alert('没有选中的数据');
+        return false;
+      }
+      for(;i<l;i++){
+        var span = $(list[i]).children('span')[0];
+        arr.push($(span).text());
+      }
+      arr = arr.join(',');
+      var edit_all = $('.edit-all');
+      edit_all.children('input[name="ids"]').val(arr);
+      edit_all.removeClass('display-n');
+    });
+</script>
+</body>
+</html>

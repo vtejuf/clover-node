@@ -48,7 +48,7 @@ function cats(app){
 	});
 }
 
-function goods(app){
+function parts(app){
 	var session_info = app.session.get(app);
 	if(!session_info || +session_info.group !== 9){
 		app.session.set(app,'',function(){
@@ -56,7 +56,17 @@ function goods(app){
 		});
 		return;
 	}
-	app.tmpl(app.cfg.theme+'/admin/goods.ejs',{filename:header_path});
+	if(app.req.method==='POST'){
+		app.postdata.query = app.mender.trim(app.postdata.query);
+		admin_model.search_parts(function(err,data){
+			data._id = data._id;
+			data.auto_motive_id = data.auto_motive_id;
+			data = JSON.stringify(data);
+			app.send(data);
+		},app.postdata.query);
+		return;
+	}
+	app.tmpl(app.cfg.theme+'/admin/parts.ejs',{filename:header_path});
 }
 
 function user(app){
@@ -135,7 +145,7 @@ module.exports = {
 	index : index,
 	login : login,
 	cats : cats,
-	goods : goods,
+	parts : parts,
 	user : user,
 	add_user : add_user,
 	edit : edit,

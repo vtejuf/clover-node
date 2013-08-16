@@ -59,6 +59,13 @@ function edit_one(callback,type,data){
 		}
 		data.level = +data.level;
 	}
+	if(type==='parts'){
+		if(data.auto_motive_id){
+			data.auto_motive_id = OID(data.auto_motive_id);
+		}else{
+			delete data.auto_motive_id;
+		}
+	}
 	delete data._id;
 	db(cfg.dbname).open(function(err,db){
 		db.collection(type).update(where,{$set:data},{fsync:true,safe:true},function(err,doc){
@@ -80,6 +87,13 @@ function add_one(callback,type,data){
 		}
 		data.level = +data.level;
 	}
+	if(type==='parts'){
+		if(data.auto_motive_id){
+			data.auto_motive_id = OID(data.auto_motive_id);
+		}else{
+			delete data.auto_motive_id;
+		}
+	}
 	db(cfg.dbname).open(function(err,db){
 		db.collection(type).insert(where,{fsync:true,safe:true},function(err,doc){
 			callback(err,doc);
@@ -98,6 +112,36 @@ function delete_one(callback,type,data){
 	});
 }
 
+function search_parts(callback,query){
+	query = /^[a-z0-9]{24}$/i.test(query)?OID(query):new RegExp('^[^\\n\\r]*'+query.replace(/\\/g,'\\\\').replace(/\//g,'\\/').replace(/\s+/g,'[^\\n\\r]*')+'[^\\n\\r]*$','i');
+	if(query.test){
+		db(cfg.dbname).open(function(err,db){
+			db.collection('parts').find({
+				$or:[
+				{brand:query},
+				{category:query},
+				{name:query}
+				]
+			},{fields:{_id:1,auto_motive_id:1,category:1,brand:1,from_site:1,name:1,price:1,small_image_url:1,url:1,comment_info:1}}).toArray(function(err,result){
+				db.close();
+				callback(err,result);
+			});
+		});
+	}else{
+		db(cfg.dbname).open(function(err,db){
+			db.collection('parts').find({
+				$or:[
+				{_id:query},
+				{auto_motive_id:query}
+				]
+			},{fields:{_id:1,auto_motive_id:1,category:1,brand:1,from_site:1,name:1,price:1,small_image_url:1,url:1,comment_info:1}}).toArray(function(err,result){
+				db.close();
+				callback(err,result);
+			});
+		});
+	}
+}
+
 module.exports = {
 	login : login,
 	get_categorys : get_categorys,
@@ -105,5 +149,6 @@ module.exports = {
 	user_list : user_list,
 	edit_one : edit_one,
 	add_one : add_one,
-	delete_one : delete_one
+	delete_one : delete_one,
+	search_parts : search_parts
 }
