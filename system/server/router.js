@@ -20,7 +20,7 @@ function router(app){
 			statics(app);
 		}else{
 			for(var key in app._get){
-				reg_str = key.replace(/:any/gim,'[^.\/]+');
+				reg_str = key.replace(/:any/gim,'[^.\/]*');
 				var reg = new RegExp('^'+reg_str+'$');
 				if(reg.test(pathname) && (typeof app._get[key] === 'function')){
 					pathname.replace(reg,function(){

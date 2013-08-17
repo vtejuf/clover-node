@@ -20,7 +20,7 @@ module.exports = function(app){
 				});
 			}else{
 				for(var key in app._post){
-					reg_str = key.replace(/:any/gim,'[^.\/]+');
+					reg_str = key.replace(/:any/gim,'[^.\/]*');
 					var reg = new RegExp('^'+reg_str+'$');
 					if(reg.test(pathname) && (typeof app._post[key] === 'function')){
 						pathname.replace(reg,function(){
