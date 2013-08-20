@@ -145,7 +145,7 @@
 		<% if (cats.length) { %>
 		    <% cats.forEach(function(category){ %>
 			<dl>
-				<dt><a href='?type=<%= category._id %>' target='_blank'><%= category.name %></a></dt>
+				<dt><a href='/?type=<%= category._id %>' target='_blank'><%= category.name %></a></dt>
 			</dl>
 		    <% }) %>
 		<% } %>
