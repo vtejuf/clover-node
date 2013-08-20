@@ -4,6 +4,7 @@ var _unshift = [].unshift;
 
 module.exports = function(app){
 		var pathname = decodeURI(app.url.pathname);
+		pathname = (pathname.length>1 && pathname.slice(-1)==='/')?pathname.slice(0,-1):pathname;
 
 		var _postdata ='';
 		app.req.addListener('data',function(postdata){

@@ -32,15 +32,34 @@ function login(app){
 	}else{
 		app.tmpl(app.cfg.theme+'/admin/login.ejs',{filename:header_path});
 	}
-	//app.redirect(app,'/admin');
 }
 
-function cats(app){
+function cats(app,active){
 	var session_info = app.session.get(app);
 	if(!session_info || +session_info.group !== 9){
 		app.session.set(app,'',function(){
 			app.location(app,'/admin/login');
 		});
+		return;
+	}
+	if(active==='del'){
+		del(app,'cats');
+		return;
+	}
+	if(active==='add'){
+		add(app,'cats');
+		return;
+	}
+	if(active==='edit'){
+		edit(app,'cats');
+		return;
+	}
+	if(active==='edit_all'){
+		edit_all(app,'cats');
+		return;
+	}
+	if(active==='merge'){
+		merge(app,'cats');
 		return;
 	}
 	admin_model.get_categorys(function(err,doc){
@@ -48,7 +67,7 @@ function cats(app){
 	});
 }
 
-function parts(app){
+function parts(app,active){
 	var session_info = app.session.get(app);
 	if(!session_info || +session_info.group !== 9){
 		app.session.set(app,'',function(){
@@ -56,7 +75,7 @@ function parts(app){
 		});
 		return;
 	}
-	if(app.req.method==='POST'){
+	if(active==='search'){
 		app.postdata.query = app.mender.trim(app.postdata.query);
 		admin_model.search_parts(function(err,data){
 			data._id = data._id;
@@ -66,34 +85,43 @@ function parts(app){
 		},app.postdata.query);
 		return;
 	}
+	if(active==='del'){
+		del(app,'parts');
+		return;
+	}
+	if(active==='add'){
+		add(app,'parts');
+		return;
+	}
+	if(active==='edit'){
+		edit(app,'parts');
+		return;
+	}
+	if(active==='edit_all'){
+		edit_all(app,'parts');
+		return;
+	}
 	app.tmpl(app.cfg.theme+'/admin/parts.ejs',{filename:header_path});
 }
 
-function user(app){
+function user(app,active){
 	var session_info = app.session.get(app);
 	if(!session_info || +session_info.group !== 9){
 		app.session.set(app,'',function(){
 			app.location(app,'/admin/login');
 		});
+		return;
+	}
+	if(active==='add'){
+		app.postdata.pw = crypto.en_code(app.postdata.pw);
+		admin_model.add_user(function(err,doc){
+			app.location(app,'/admin/user');
+		},app.postdata);
 		return;
 	}
 	admin_model.user_list(function(err,doc){
 		app.tmpl(app.cfg.theme+'/admin/user.ejs',{filename:header_path,user_list:doc});
 	});
-}
-
-function add_user(app){
-	var session_info = app.session.get(app);
-	if(!session_info || +session_info.group !== 9){
-		app.session.set(app,'',function(){
-			app.location(app,'/admin/login');
-		});
-		return;
-	}
-	app.postdata.pw = crypto.en_code(app.postdata.pw);
-	admin_model.add_user(function(err,doc){
-		app.location(app,'/admin/user');
-	},app.postdata);
 }
 
 function edit(app,type){
@@ -135,22 +163,28 @@ function edit_all(app,type){
 	app.location(app,'/admin/'+type);
 }
 
+function merge(app,type){
+	var data = app.postdata;
+	admin_model.cats_merge(function(err,doc){
+		if(doc){
+			console.log(1)
+			app.location(app,'/admin/'+type);
+		}
+	},type,data);
+}
+
 function logout(app){
 	app.session.set(app,'',function(){
 		app.location(app,'/admin/login');
 	});
 	return;
 }
+
 module.exports = {
 	index : index,
 	login : login,
 	cats : cats,
 	parts : parts,
 	user : user,
-	add_user : add_user,
-	edit : edit,
-	add : add,
-	del : del,
-	edit_all : edit_all,
 	logout : logout
 }

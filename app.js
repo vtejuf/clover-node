@@ -8,15 +8,14 @@ app.get('/img',me.img);
 app.get('/me/(:any)/(:any)',me.more);
 app.get('/go',me.go);
 
-app.post('/admin/del/(:any)',admin.del);
-app.post('/admin/add/(:any)',admin.add);
-app.post('/admin/edit_all/(:any)',admin.edit_all);
-app.post('/admin/edit/(:any)',admin.edit);
-app.post('/admin/add_user',admin.add_user);
+
+app.post('/admin/user/(:any)',admin.user);
 app.get('/admin/user',admin.user);
+app.post('/admin/cats/(:any)',admin.cats);
 app.get('/admin/cats',admin.cats);
+app.post('/admin/parts/(:any)',admin.parts);
 app.get('/admin/parts',admin.parts);
-app.post('/admin/parts',admin.parts);
+
 app.get('/admin/logout',admin.logout);
 app.get('/admin/login',admin.login);
 app.post('/admin/login',admin.login);

@@ -30,7 +30,7 @@
 </div>
 
 
-<form id='edit' class='edit display-n' action='/admin/edit/parts' method='post'>
+<form id='edit' class='edit display-n' action='/admin/parts/edit' method='post'>
 <label class='id-title'></label>
 <hr>
 <input type='hidden' name='_id' value='' placeholder='_id'/>
@@ -48,7 +48,7 @@
 <a class='btn cancel' data-cancel='edit' href='javascript:;'>取消</a>
 </form>
 
-<form id='editAll' class='edit-all display-n' action='/admin/edit_all/parts' method='post'>
+<form id='editAll' class='edit-all display-n' action='/admin/parts/edit_all' method='post'>
 
 <input type='text' name='auto_motive_id' value='' placeholder='auto_motive_id'/>
 <input type='text' name='category' value='' placeholder='category'/>
@@ -67,7 +67,7 @@
 
 
 
-<form id='addForm' class='add-form display-n' action='/admin/add/parts' method='post'>
+<form id='addForm' class='add-form display-n' action='/admin/parts/add' method='post'>
 <input type='text' name='auto_motive_id' value='' placeholder='auto_motive_id'/>
 <input type='text' name='category' value='' placeholder='category'/>
 <input type='text' name='brand' value='' placeholder='brand'/>
@@ -92,7 +92,7 @@
     var form = $(this).parent('form')[0];
     var data = $(form).serialize();
     $.ajax({
-      url:'/admin/parts',
+      url:'/admin/parts/search',
       type:'post',
       data:data,
       dataType:'json',
@@ -164,7 +164,7 @@
         return false;
       }
       arr = arr.join(',');
-      $.post('/admin/del/parts',{"ids":arr},function(data){
+      $.post('/admin/parts/del',{"ids":arr},function(data){
         $('body').append(data);
       });
     });

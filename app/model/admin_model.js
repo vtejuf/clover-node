@@ -50,9 +50,18 @@ function add_user(callback,user){
 }
 
 function edit_one(callback,type,data){
+	if(!/^[a-z0-9]{24}$/i.test(data._id)){
+		callback('oid type wrong');
+		db.close();
+		return false;
+	}
 	var where = {'_id':OID(data._id)};
 	if(type==='cats'){
 		if(data.parent_auto_motive_id){
+			if(!/^[a-z0-9]{24}$/i.test(data.parent_auto_motive_id)){
+				callback('oid type wrong');
+				return false;
+			}
 			data.parent_auto_motive_id = OID(data.parent_auto_motive_id);
 		}else{
 			delete data.parent_auto_motive_id;
@@ -61,6 +70,10 @@ function edit_one(callback,type,data){
 	}
 	if(type==='parts'){
 		if(data.auto_motive_id){
+			if(!/^[a-z0-9]{24}$/i.test(data.auto_motive_id)){
+				callback('oid type wrong');
+				return false;
+			}
 			data.auto_motive_id = OID(data.auto_motive_id);
 		}else{
 			delete data.auto_motive_id;
@@ -81,6 +94,10 @@ function add_one(callback,type,data){
 	var where = data;
 	if(type==='cats'){
 		if(data.parent_auto_motive_id){
+			if(!/^[a-z0-9]{24}$/i.test(data.parent_auto_motive_id)){
+				callback('oid type wrong');
+				return false;
+			}
 			data.parent_auto_motive_id = OID(data.parent_auto_motive_id);
 		}else{
 			delete data.parent_auto_motive_id;
@@ -89,6 +106,10 @@ function add_one(callback,type,data){
 	}
 	if(type==='parts'){
 		if(data.auto_motive_id){
+			if(!/^[a-z0-9]{24}$/i.test(data.auto_motive_id)){
+				callback('oid type wrong',doc);
+				return false;
+			}
 			data.auto_motive_id = OID(data.auto_motive_id);
 		}else{
 			delete data.auto_motive_id;
@@ -142,6 +163,28 @@ function search_parts(callback,query){
 	}
 }
 
+function cats_merge(callback,type,data){
+	var ids = data.ids.split(',');
+	delete data.ids;
+	add_one(function(err,doc){
+		var _new_id = doc[0]._id;
+		ids.forEach(function(s){
+			var _id = OID(s);
+			db(cfg.dbname).open(function(err,db){
+				db.collection('cats').update({parent_auto_motive_id:_id},{$set:{parent_auto_motive_id:_new_id}},{fsync:true,safe:true,multi:true},function(err,doc){
+					db.collection('parts').update({auto_motive_id:_id},{$set:{auto_motive_id:_new_id}},{fsync:true,safe:true,multi:true},function(err,doc){
+						db.collection('cats').remove({_id:_id},{fsync:true,safe:true},function(err){
+							db.close();
+							callback(err,doc);
+						});
+					});
+				});
+			});
+			// console.log(s);
+		});
+	},'cats',data);
+}
+
 module.exports = {
 	login : login,
 	get_categorys : get_categorys,
@@ -150,5 +193,6 @@ module.exports = {
 	edit_one : edit_one,
 	add_one : add_one,
 	delete_one : delete_one,
-	search_parts : search_parts
+	search_parts : search_parts,
+	cats_merge : cats_merge
 }
