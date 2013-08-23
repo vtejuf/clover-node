@@ -163,26 +163,38 @@ function search_parts(callback,query){
 	}
 }
 
-function cats_merge(callback,type,data){
-	var ids = data.ids.split(',');
-	delete data.ids;
-	add_one(function(err,doc){
-		var _new_id = doc[0]._id;
-		ids.forEach(function(s){
-			var _id = OID(s);
-			db(cfg.dbname).open(function(err,db){
-				db.collection('cats').update({parent_auto_motive_id:_id},{$set:{parent_auto_motive_id:_new_id}},{fsync:true,safe:true,multi:true},function(err,doc){
-					db.collection('parts').update({auto_motive_id:_id},{$set:{auto_motive_id:_new_id}},{fsync:true,safe:true,multi:true},function(err,doc){
-						db.collection('cats').remove({_id:_id},{fsync:true,safe:true},function(err){
+function cats_merge(callback,type,ids){
+	if(typeof ids ==='string'){
+		var ids = ids.split(',');
+		for(var j=0;j<ids.length;j++){
+			ids[j]=OID(ids[j]);
+		}
+	}
+	var allids=ids;
+	_self(ids);
+	function _self(ids){
+	db(cfg.dbname).open(function(err,db){
+		db.collection('cats').find({parent_auto_motive_id:{$in:ids}},{fields:{_id:1}}).toArray(function(err,reback){
+			if(reback.length!==0){
+				for(var i=0,l=reback.length;i<l;i++){
+					reback[i]=reback[i]['_id'];
+				}
+				allids = allids.concat(reback);
+				_self(reback);
+			}else{
+				var newcat_id = allids.shift();
+				db.collection('parts').update({auto_motive_id:{$in:allids}},{$set:{auto_motive_id:newcat_id}},{fsync:true,safe:true,multi:true},function(err,stat){
+					db.collection('cats').remove({_id:{$in:allids}},{fsync:true,safe:true},function(err,ok){
+						if(ok){
+							callback();
 							db.close();
-							callback(err,doc);
-						});
+						}
 					});
 				});
-			});
-			// console.log(s);
+			}
 		});
-	},'cats',data);
+	});
+	}
 }
 
 module.exports = {

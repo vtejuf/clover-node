@@ -62,10 +62,10 @@
 </form>
 
 <form id='merge' class='merge display-n' action='/admin/cats/merge' method='post'>
-<input type='text' name='from_site' value='' placeholder='from_site'/>
-<input type='text' name='level' value='' placeholder='level'/>
-<input type='text' name='name' value='' placeholder='name'/>
-<input type='text' name='parent_auto_motive_id' value='' placeholder='parent_auto_motive_id'/>
+合并后的子栏目将被删除，<br>所有产品并入合并后的目录下。<br>
+<h2>合并操作不可逆，确定要合并?</h2>
+<hr>
+<input type='text' name='name'>
 <input type='hidden' name='ids' value=''/>
 <hr style='margin:10px 0;'>
 <button type='submit' class='btn btn-primary float-right'>确定</button>
@@ -182,6 +182,7 @@
       arr = arr.join(',');
       var merge = $('.merge');
       merge.children('input[name="ids"]').val(arr);
+      merge.children('input[name="name"]').val($(list[0]).children('span:eq(3)').text());
       merge.removeClass('display-n');
     });
 </script>

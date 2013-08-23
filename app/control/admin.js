@@ -22,11 +22,13 @@ function login(app){
 	}
 	if(app.postdata){
 		admin_model.login(function(err,item){
-			if(item && app.postdata.pw === crypto.de_code(item.pw)){
+			if(item && app.postdata.pw === crypto.de_code(item.pw) && +item.group===9){
 				item.loged = 1;
 				app.session.set(app,item,function(){
 					app.location(app,'/admin');
 				});
+			}else{
+				app.location(app,'/admin');
 			}
 		},app.postdata);
 	}else{
@@ -164,13 +166,10 @@ function edit_all(app,type){
 }
 
 function merge(app,type){
-	var data = app.postdata;
-	admin_model.cats_merge(function(err,doc){
-		if(doc){
-			console.log(1)
-			app.location(app,'/admin/'+type);
-		}
-	},type,data);
+	var ids = app.postdata.ids;
+	admin_model.cats_merge(function(){
+		app.location(app,'/admin/'+type);
+	},type,ids);
 }
 
 function logout(app){
