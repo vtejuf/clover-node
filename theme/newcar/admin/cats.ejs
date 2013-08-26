@@ -12,16 +12,26 @@
   <% include left_side.ejs %>
   <div style='width:800px;float:left;padding:15px;'>
   <a class='add-cat btn' href='javascript:;'>新增</a>
-  <a class='move-cats btn' href='javascript:;'>批量修改</a>
+  <a class='move-cats btn' href='javascript:;'>修改</a>
   <a class='merge-cats btn' href='javascript:;'>合并</a>
   <a class='delete-cats btn' href='javascript:;'>删除</a>
   </div>
-
+  <div style='width:800px;float:left;padding:5px 5px 10px;'>
+    _id，from_site，level，name，parent_auto_motive_id，click
+  </div>
   <div style='width:800px;float:left;padding:0 15px;height:500px;overflow:auto;'>
   	<% if (cats.length) { %>
 	<ul class='cats-list'>
 	<% cats.forEach(function(cat){ %>
 	<li>
+    <%
+      cat.tab = '>';
+      var l = cat.level;
+      while(--l){
+        cat.tab += '>';
+      }
+    %>
+    <%= cat.tab %>
 		<span><%= cat._id %></span>
 		<span><%= cat.from_site %></span>
 		<span><%= cat.level %></span>
@@ -29,6 +39,7 @@
     <% if(cat.parent_auto_motive_id){ %>
       <span><%= cat.parent_auto_motive_id %></span>
     <% } %>
+    <span><% if(cat.click){%><%= cat.click %><% }else{ %><%= 0 %><% }; %></span>
 	</li>
 	<% }); %>
 	</ul>
@@ -41,24 +52,12 @@
 <label class='id-title'></label>
 <hr>
 <input type='hidden' name='_id' value='' placeholder='_id'/>
-<input type='text' name='from_site' value='' placeholder='from_site'/>
-<input type='text' name='level' value='' placeholder='level'/>
 <input type='text' name='name' value='' placeholder='name'/>
 <input type='text' name='parent_auto_motive_id' value='' placeholder='parent_auto_motive_id'/>
+<input type='text' name='click' value='' placeholder='click'/>
 <hr style='margin:10px 0;'>
 <button type='submit' class='btn btn-primary float-right'>确定</button>
 <a class='btn cancel' data-cancel='edit' href='javascript:;'>取消</a>
-</form>
-
-<form id='editAll' class='edit-all display-n' action='/admin/cats/edit_all' method='post'>
-<input type='text' name='from_site' value='' placeholder='from_site'/>
-<input type='text' name='level' value='' placeholder='level'/>
-<input type='text' name='name' value='' placeholder='name'/>
-<input type='text' name='parent_auto_motive_id' value='' placeholder='parent_auto_motive_id'/>
-<input type='hidden' name='ids' value=''/>
-<hr style='margin:10px 0;'>
-<button type='submit' class='btn btn-primary float-right'>确定</button>
-<a class='btn cancel' data-cancel='editAll' href='javascript:;'>取消</a>
 </form>
 
 <form id='merge' class='merge display-n' action='/admin/cats/merge' method='post'>
@@ -96,22 +95,6 @@
         _self.removeClass('cats-list-active'):
         _self.addClass('cats-list-active');
     });
-    jQuery(document).on('dblclick','.cats-list li',function(e){
-        var _self = $(this);
-        _self.siblings().removeClass('cats-list-active');
-      	e.preventDefault();
-        var fields = _self.children('span');
-        var inputs = $('.edit').children('input');
-        var l = inputs.length,i=0;
-        var id_title='';
-        for(;i<l;i++){
-          id_title = id_title || $(fields[i]).text();
-          var str = $(fields[i]).text();
-          $(inputs[i]).val(str);
-        }
-        $('.id-title').empty().append("_id:<i>"+id_title+"</i>");
-        $('.edit').removeClass(' display-n');
-    });
 
     $('.add-cat').click(function(){
       $('.add-form').removeClass(' display-n');  
@@ -142,20 +125,20 @@
 
     $('.move-cats').click(function(){
       var list= $('.cats-list li.cats-list-active');
-      var i =0,l=list.length;
-      var arr=[];
-      if(l===0){
-        alert('没有选中的数据');
-        return false;
+      if(list.length>1){
+      alert('一次只能修改一条记录，多条记录修改，请使用合并功能');
+      return false;
       }
-      for(;i<l;i++){
-        var span = $(list[i]).children('span')[0];
-        arr.push($(span).text());
-      }
-      arr = arr.join(',');
-      var edit_all = $('.edit-all');
-      edit_all.children('input[name="ids"]').val(arr);
-      edit_all.removeClass('display-n');
+      var fields = list.children('span');
+      var inputs = $('.edit').children('input');
+      var l = inputs.length,i=0;
+      var id_title = id_title || $(fields[0]).text();
+      $(inputs[0]).val($(fields[0]).text());
+      $(inputs[1]).val($(fields[3]).text());
+      $(inputs[2]).val($(fields[4]).text());
+      $(inputs[3]).val($(fields[5]).text());
+      $('.id-title').html("_id:<i>"+id_title+"</i>");
+      $('.edit').removeClass(' display-n');
     });
 
     $('.merge-cats').click(function(){
