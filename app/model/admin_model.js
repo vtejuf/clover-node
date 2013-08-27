@@ -18,9 +18,39 @@ function get_categorys(callback,pid){
 				s.parent_auto_motive_id=s.parent_auto_motive_id?s.parent_auto_motive_id:'';
 			});
 			db.close();
+			doc = cats_format(doc);
 			callback(err,doc);
 		});
 	});
+}
+
+function cats_format(doc){
+	var i=1,out=[],floor=0,l=doc.length-1;
+	doc.forEach(function(level){
+		if(level.level == i){
+			out.push(level);
+		};
+		floor = level.level>floor?level.level:floor;
+	});
+	function _self(){
+		if(i++>floor){
+			return out;
+		}
+		for(j=l;j>0;j--){
+			if(doc[j].level==i){
+				var pid = doc[j].parent_auto_motive_id;
+				for(var o in out){
+					if(out[o]._id+'' == pid+''){
+						var pos = +o+1;
+						out.splice(pos,0,doc[j]);
+						break;
+					};
+				}
+			}
+		}
+		return _self();
+	}
+	return _self();
 }
 
 function user_list(callback){
@@ -179,6 +209,7 @@ function cats_merge(callback,type,ids){
 					reback[i]=reback[i]['_id'];
 				}
 				allids = allids.concat(reback);
+				db.close();
 				_self(reback);
 			}else{
 				var newcat_id = allids.shift();
