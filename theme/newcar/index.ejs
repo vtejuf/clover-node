@@ -44,13 +44,20 @@
 		<div class='type-tree'>
 			<h2 class='title'>分类查询</h2>
 			<div class='content'>
-				<% if (cats.length) { %>
+				<% if(cats.length) { %>
 				<% cats.forEach(function(category){ %>
 				<dl>
 					<dt>
-						<a href='?type=<%= category._id %>'>
-							<%= category.name %></a>
+						<%= category.name %>
 					</dt>
+					<dd>
+						<% if(category.subcats.length){ %>
+						<% category.subcats.forEach(function(subcat){ %>
+						<a href='/result/<%= subcat._id %>'>
+							<%= subcat.name %></a>&nbsp;&nbsp;|&nbsp;&nbsp;
+						<% }) %>
+						<% } %>
+					</dd>
 				</dl>
 				<% }) %>
 				<% } %>

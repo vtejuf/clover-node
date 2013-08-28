@@ -11,7 +11,7 @@ function login(callback,user){
 	});
 }
 
-function get_categorys(callback,pid){
+function get_categorys(callback){
 	db(cfg.dbname).open(function(err,db){
 		db.collection('cats').find({},{fields:{_id:1,from_site:1,level:1,name:1,parent_auto_motive_id:1,click:1}}).sort([['_id', 1]]).toArray(function(err,doc){
 			doc.forEach(function(s){

@@ -28,19 +28,24 @@
  </head>
 
  <body>
+
+<div class='warper-screen head'>
 <div class='warper1000'>
-  
 	<div class='header'>
 		<a class='logo' href='/'><img src='{{theme}}/images/logo.png'/></a>
 		<form class="form-search form-inline" method='post' action='/search' target='_blank'>
 			<input type="text" class="input-medium search-query" name='query' placeholder='请输入关键词 用空格隔开'>
-			<button type="submit" class="btn btn-primary">直接搜索</button>
+			<button type="submit" class="btn btn-primary"><i class='icon-search icon-white'></i></button>
 	    </form>
 	</div>
+</div>
+</div>
 
-	<div class='top-banner'>
+<div class='warper1000'>
+
+<!-- 	<div class='top-banner'>
 		<img src='http://placehold.it/1000x90'>
-	</div>
+	</div> -->
 	
 	<div class='content'>
 		<div class='main'>
@@ -139,18 +144,7 @@
 			</div>
 		</div>
 		<div class='right'>
-			<div class='type-tree no-float'>
-				<h2 class='title'>分类查询</h2>
-				<div class='content'>
-		<% if (cats.length) { %>
-		    <% cats.forEach(function(category){ %>
-			<dl>
-				<dt><a href='/?type=<%= category._id %>' target='_blank'><%= category.name %></a></dt>
-			</dl>
-		    <% }) %>
-		<% } %>
-				</div>
-			</div>	
+			<img src='http://placehold.it/200x500'>
 		</div>
 	</div>
 </div>

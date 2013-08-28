@@ -19,10 +19,12 @@ function router(app){
 		}else if(pathname.indexOf('.')>0){
 			statics(app);
 		}else{
+			var go_to_def = true;
 			for(var key in app._get){
 				reg_str = key.replace(/:any/gim,'[^.\/]*');
 				var reg = new RegExp('^'+reg_str+'$');
 				if(reg.test(pathname) && (typeof app._get[key] === 'function')){
+					go_to_def = false;
 					pathname.replace(reg,function(){
 						var al = arguments.length;
 						arguments = _slice.call(arguments,1,al-2);
@@ -33,9 +35,11 @@ function router(app){
 						});
 					});
 					break;
-				}else{
-					app._get['(:default)'](app);
 				}
+
+			}
+			if(go_to_def){
+				app._get['(:default)'](app);
 			}
 		}
 	}else if(method === 'POST'){
