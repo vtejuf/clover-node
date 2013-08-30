@@ -4,6 +4,7 @@ $(document).ready(function(){
 
 	$('.removeDom').remove();
 
+/*点击品牌显示列表 已放弃*/
 	$(".result-list").delegate('.makes','click',function(){
 		var tableNow = $(this).siblings('table');
 		if(tableNow.hasClass('current')){
@@ -24,6 +25,7 @@ $(document).ready(function(){
 		tableNow.addClass('current');
 	});
 
+/*回到顶部*/
 	$(window).scroll(function(){
 		$('html,body').scrollTop() >= 170?
 			function(){
@@ -38,5 +40,12 @@ $(document).ready(function(){
 		$('html,body').animate({scrollTop: '0px'}, 800);
 	});
 
-
+/*列表页筛选*/
+	$('.order-by > .show-all').click(function(){
+		$('.result-list tr').removeClass('display-n');
+	});
+	$('.order-by > select').on('change',function(){
+		var shower = '.'+$(this).val();
+		$('.result-list tr').addClass('display-n').filter(shower).removeClass('display-n');
+	});
 });

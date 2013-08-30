@@ -203,3 +203,10 @@ input.search-query{
 	cursor:pointer;
 	display:none;
 }
+
+.order-by{
+	margin: 0 0 10px;
+}
+.order-by select{
+	margin: 0;
+}

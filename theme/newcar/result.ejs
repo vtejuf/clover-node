@@ -49,6 +49,22 @@
 	
 	<div class='content'>
 		<div class='main'>
+			<div class='order-by'>
+				条件过滤：
+				<a href='javascript:;' class='show-all btn'>全部</a>
+				<select>
+				<option>品牌</option>
+				<% brands.forEach(function(brand){ %>
+					<option href='javascript:;' value='<%= sort_index[brand] %>'><%= brand %></option>
+				<% }) %>
+				</select>
+				<select>
+				<option>来源</option>
+				<% from_sites.forEach(function(from_site){ %>
+					<option href='javascript:;' value='<%= sort_index[from_site] %>'><%= from_site %></option>
+				<% }) %>
+				</select>
+			</div>
 			<div class='search-title'>
 				<span class='float-right go-top'>返回顶部</span>
 				<strong>
@@ -59,7 +75,6 @@
 					<%}%></strong>
 			</div>
 			<div class='result-list'>
-				<% if (search){%>
 					<table style='display:block;'>
 						<tr>
 							<th style='width:480px'>产品名称</th>
@@ -69,7 +84,7 @@
 						</tr>
 						<% if (parts.length) { %>
 						<% parts.forEach(function(part){ %>
-						<tr>
+						<tr class='<%= sort_index[part.from_site] %> <%= sort_index[part.brand] %>'>
 							<td class='td-first' style='width:480px'>
 								<strong>
 									<a href="<%= part.url %>" target='_blank'>
@@ -89,56 +104,6 @@
 						</tr>
 				  		<% }) %>
 				  	</table>
-				<% } %>
-
-				<% }else{ %>
-				<ul>
-				<% if (brands.length) { %>
-				<% brands.forEach(function(brand){ %>
-					<li>
-						<div class='makes'>
-							<%= brand.brand %>
-							<span class='float-right'>
-							最高人气：<%= brand.parts[0].comment_info %>
-							</span>
-							<i class='float-right'>
-								&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-							</i>
-							<span class='float-right'>
-							（<%= brand.parts.length %>）件商品在售
-							</span>
-						</div>
-						<table>
-						<tr>
-							<th style='width:480px'>产品名称</th>
-							<th style='width:80px'>价格</th>
-							<th style='width:40px'>人气</th>
-							<th>来源</th>
-						</tr>
-						<% brand.parts.forEach(function(part){ %>
-						<tr>
-							<td class='td-first' style='width:480px'>
-								<strong>
-									<a href="<%= part.url %>" target='_blank'>
-									<%= part.name %>
-									</a>
-								</strong>
-							</td>
-							<td style='width:80px'>
-								<%= part.price %>
-							</td>
-							<td style='width:40px'>
-								<%= part.comment_info %>
-							</td>
-							<td>
-								<%= part.from_site %>
-							</td>
-						</tr>
-				  		<% }) %>
-				  		</table>
-					</li>
-				<% }) %>
-				<% } %>
 				<% } %>
 				</ul>
 			</div>
