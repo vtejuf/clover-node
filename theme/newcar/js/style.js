@@ -45,7 +45,12 @@ $(document).ready(function(){
 		$('.result-list tr').removeClass('display-n');
 	});
 	$('.order-by > select').on('change',function(){
-		var shower = '.'+$(this).val();
+		var selector = $('.order-by > select');
+		var shower='';
+		for(var i=0;i<selector.length;i++){
+			var option_val = $(selector[i]).val()!='select-title'?'.'+$(selector[i]).val():'';
+			shower += option_val;
+		}
 		$('.result-list tr').addClass('display-n').filter(shower).removeClass('display-n');
 	});
 });

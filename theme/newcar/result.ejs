@@ -53,13 +53,13 @@
 				条件过滤：
 				<a href='javascript:;' class='show-all btn'>全部</a>
 				<select>
-				<option>品牌</option>
+				<option value='select-title'>品牌</option>
 				<% brands.forEach(function(brand){ %>
 					<option href='javascript:;' value='<%= sort_index[brand] %>'><%= brand %></option>
 				<% }) %>
 				</select>
 				<select>
-				<option>来源</option>
+				<option value='select-title'>来源</option>
 				<% from_sites.forEach(function(from_site){ %>
 					<option href='javascript:;' value='<%= sort_index[from_site] %>'><%= from_site %></option>
 				<% }) %>
