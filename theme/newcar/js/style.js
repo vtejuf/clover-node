@@ -51,9 +51,15 @@ $(document).ready(function(){
 			var option_val = $(selector[i]).val()!='select-title'?'.'+$(selector[i]).val():'';
 			shower += option_val;
 		}
+		if(shower===''){
+			$('.result-list tr').removeClass('display-n');
+			return;
+		};
 		$('.result-list tr').addClass('display-n').filter(shower).removeClass('display-n');
+		$('.result-list tr:eq(0)').removeClass('display-n');
 	});
 
+/*列表页瀑布流*/
 	$('#fluor-more').on('click',function(){
 		fluor.listen('#fluor-more',{
 			times:2,
@@ -72,7 +78,6 @@ $(document).ready(function(){
 				$('#fluor-more').text('没有了');
 				return;
 			}
-			console.log(data);
 		}
 	});
 
