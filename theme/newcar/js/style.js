@@ -53,4 +53,27 @@ $(document).ready(function(){
 		}
 		$('.result-list tr').addClass('display-n').filter(shower).removeClass('display-n');
 	});
+
+	$('#fluor-more').on('click',function(){
+		fluor.listen('#fluor-more',{
+			times:2,
+			url:'/fluorParts',
+			type:'post',
+			dataType:'json',
+			data:{type:PARTSID},
+			callback:_success
+		},_prefunc);
+		function _prefunc(option){
+			option.data.skip = $('.result-list tr').length;
+		}
+		function _success(data){
+			if(data.parts.length<50){
+				$('#fluor-more').off('click');
+				$('#fluor-more').text('没有了');
+				return;
+			}
+			console.log(data);
+		}
+	});
+
 });

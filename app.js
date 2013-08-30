@@ -20,6 +20,8 @@ app.get('/admin/logout',admin.logout);
 app.get('/admin/login',admin.login);
 app.post('/admin/login',admin.login);
 app.get('/admin',admin.index);
+
+app.post('/fluorParts',handle.get_parts_flour);
 app.get('/result/(:any)',handle.result);
 app.post('/search',handle.search);
 app.get('/',handle.index);

@@ -65,6 +65,17 @@ function get_parts_by_category(callback,pid){
 	});
 }
 
+function get_parts_by_category_limit(callback,pid,skip){
+	category = pid?{'auto_motive_id':OID(pid)}:{};
+	skip = +skip;
+	db(cfg.dbname).open(function(err,db){
+		db.collection('parts').find(category,{fields:{_id:0,brand:1,from_site:1,name:1,price:1,small_image_url:1,url:1,comment_info:1}}).sort([['comment_info', 1]]).skip(skip).limit(50).toArray(function(err,doc){
+			callback(err,doc);
+			db.close();
+		});
+	});
+}
+
 function get_parts_by_brand(callback,brand){
 	db(cfg.dbname).open(function(err,db){
 		db.collection('parts').find({'brand':brand},{fields:{_id:0,category:1,brand:1,from_site:1,name:1,price:1,small_image_url:1,url:1,comment_info:1}}).toArray(function(err,doc){
@@ -117,5 +128,6 @@ module.exports = {
 	get_parts_by_brand : get_parts_by_brand,
 	get_position : get_position,
 	parts_search : parts_search,
-	get_cats_new : get_cats_new
+	get_cats_new : get_cats_new,
+	get_parts_by_category_limit : get_parts_by_category_limit
 }
