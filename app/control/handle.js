@@ -74,17 +74,31 @@ function get_parts_flour(app,type,skip){
 
 function search(app){
 	var key_str = app.postdata.query;
+	var skip = app.postdata.skip?app.postdata.skip:0;
 	key_str = '^[^\\n\\r]*'+key_str.replace(/\\/g,'\\\\').replace(/\//g,'\\/').replace(/\s+/g,'[^\\n\\r]*')+'[^\\n\\r]*$';
 	var reg = new RegExp(key_str,'i');
 	parts_model.parts_search(function(err,parts){
-		parts_model.get_categorys(function(err,doc){
-			parts.forEach(function(s){
-				s.comment_info = parseInt(s.comment_info) || 0;
-			});
-			parts.sort(app.mender.objectOrder('comment_info'));
-			app.tmpl(app.cfg.theme+'/result.ejs',{'query':app.postdata.query,'parts':parts,'cats':doc,'search':1});
+		var brands = [];
+		var from_sites=[];
+		var sort_index = {};
+		parts.forEach(function(s){
+			s.brand = app.mender.trim(s.brand);
+			s.from_site = app.mender.trim(s.from_site);
+			brands.push(s.brand);
+			from_sites.push(s.from_site);
+			s.comment_info = parseInt(s.comment_info) || 0;
 		});
-	},reg);
+		parts.sort(app.mender.objectOrder('comment_info'));
+		brands = app.mender.arrUnique(brands);
+		from_sites = app.mender.arrUnique(from_sites);
+		for(var i in brands){
+			sort_index[brands[i]] = 'brand'+i;
+		}
+		for(var j in from_sites){
+			sort_index[from_sites[j]] = 'from_site'+j;
+		}
+		app.tmpl(app.cfg.theme+'/result.ejs',{'category':app.postdata.query,'parts':parts,'brands':brands,'from_sites':from_sites,'sort_index':sort_index,'search':1});
+	},reg,skip);
 }
 
 module.exports = {

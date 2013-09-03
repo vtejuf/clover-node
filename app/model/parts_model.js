@@ -102,7 +102,7 @@ function get_position(callback,pid,position){
 	});
 }
 
-function parts_search(callback,reg){
+function parts_search(callback,reg,skip){
 	db(cfg.dbname).open(function(err,db){
 		db.collection('parts').find({
 			$or:[
@@ -110,7 +110,7 @@ function parts_search(callback,reg){
 			{category:reg},
 			{name:reg}
 			]
-		},{fields:{_id:0,category:1,brand:1,from_site:1,name:1,price:1,small_image_url:1,url:1,comment_info:1}}).toArray(function(err,result){
+		},{fields:{_id:0,category:1,brand:1,from_site:1,name:1,price:1,small_image_url:1,url:1,comment_info:1}}).sort([['comment_info', 1]]).skip(skip).limit(50).toArray(function(err,result){
 			db.close();
 			callback(err,result);
 		});
