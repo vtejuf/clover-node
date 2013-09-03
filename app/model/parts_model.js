@@ -69,7 +69,15 @@ function get_parts_by_category_limit(callback,pid,skip){
 	category = pid?{'auto_motive_id':OID(pid)}:{};
 	skip = +skip;
 	db(cfg.dbname).open(function(err,db){
-		db.collection('parts').find(category,{fields:{_id:0,brand:1,from_site:1,name:1,price:1,small_image_url:1,url:1,comment_info:1}}).sort([['comment_info', 1]]).skip(skip).limit(50).toArray(function(err,doc){
+		db.collection('parts').find(
+			category,
+			{
+				fields:{_id:0,brand:1,from_site:1,name:1,price:1,small_image_url:1,url:1,comment_info:1}
+				,sort:{'comment_info':1}
+				,skip:skip
+				,limit:50
+			}).toArray(function(err,doc){
+			console.log(doc);
 			callback(err,doc);
 			db.close();
 		});
@@ -110,7 +118,12 @@ function parts_search(callback,reg,skip){
 			{category:reg},
 			{name:reg}
 			]
-		},{fields:{_id:0,category:1,brand:1,from_site:1,name:1,price:1,small_image_url:1,url:1,comment_info:1}}).sort([['comment_info', 1]]).skip(skip).limit(50).toArray(function(err,result){
+		},{
+			fields:{_id:0,category:1,brand:1,from_site:1,name:1,price:1,small_image_url:1,url:1,comment_info:1}
+			,sort:{'comment_info':1}
+			,skip:skip
+			,limit:50
+		}).toArray(function(err,result){
 			db.close();
 			callback(err,result);
 		});
