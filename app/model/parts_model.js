@@ -72,8 +72,8 @@ function get_parts_by_category_limit(callback,pid,skip){
 		db.collection('parts').find(
 			category,
 			{
-				fields:{_id:0,brand:1,from_site:1,name:1,price:1,small_image_url:1,url:1,comment_info:1}
-				,sort:{comment_info:-1}
+				fields:{_id:0,brand:1,from_site:1,name:1,price:1,small_image_url:1,url:1,hot:1}
+				,sort:{hot:-1}
 				,skip:skip
 				,limit:50
 			}).toArray(function(err,doc){
@@ -118,8 +118,8 @@ function parts_search(callback,reg,skip){
 			{name:reg}
 			]
 		},{
-			fields:{_id:0,category:1,brand:1,from_site:1,name:1,price:1,small_image_url:1,url:1,comment_info:1}
-			,sort:{comment_info:1}
+			fields:{_id:0,category:1,brand:1,from_site:1,name:1,price:1,small_image_url:1,url:1,hot:1}
+			,sort:{hot:-1}
 			,skip:skip
 			,limit:50
 		}).toArray(function(err,result){

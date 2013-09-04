@@ -21,9 +21,9 @@ function result (app,query){
 			s.from_site = app.mender.trim(s.from_site);
 			brands.push(s.brand);
 			from_sites.push(s.from_site);
-			s.comment_info = parseInt(s.comment_info) || 0;
+			// s.comment_info = parseInt(s.comment_info) || 0;
 		});
-		parts.sort(app.mender.objectOrder('comment_info'));
+		// parts.sort(app.mender.objectOrder('comment_info'));
 		brands = app.mender.arrUnique(brands);
 		from_sites = app.mender.arrUnique(from_sites);
 		for(var i in brands){
@@ -86,9 +86,9 @@ function search(app){
 			s.from_site = app.mender.trim(s.from_site);
 			brands.push(s.brand);
 			from_sites.push(s.from_site);
-			s.comment_info = parseInt(s.comment_info) || 0;
+			// s.comment_info = parseInt(s.comment_info) || 0;
 		});
-		parts.sort(app.mender.objectOrder('comment_info'));
+		// parts.sort(app.mender.objectOrder('comment_info'));
 		brands = app.mender.arrUnique(brands);
 		from_sites = app.mender.arrUnique(from_sites);
 		for(var i in brands){
