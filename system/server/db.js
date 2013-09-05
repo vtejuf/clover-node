@@ -14,11 +14,11 @@ var Db = mongo.Db,
     // assert = require('assert');
 
 function db(str){
-	var host = (/^(http:\/\/)?localhost\/?$/i.test(cfg.host))?'127.0.0.1':cfg.host;
+	var dbhost = (/^(http:\/\/)?localhost\/?$/i.test(cfg.dbhost))?'127.0.0.1':cfg.dbhost;
 	var dbport = cfg.dbport;
 	var dbname = str?str:cfg.dbname;
 
-	var db = new Db(dbname, new Server(host, dbport),{w:1});
+	var db = new Db(dbname, new Server(dbhost, dbport),{w:1});
 	return db;
 }
 db.prototype.supply = {

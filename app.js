@@ -8,7 +8,6 @@ app.get('/img',me.img);
 app.get('/me/(:any)/(:any)',me.more);
 app.get('/go',me.go);
 
-
 app.post('/admin/user/(:any)',admin.user);
 app.get('/admin/user',admin.user);
 app.post('/admin/cats/(:any)',admin.cats);

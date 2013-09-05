@@ -3,7 +3,7 @@ module.exports = {
 	port : '3000',
 	root : '/web/clover-node',
 	theme : '/theme/newcar',
-	dbhost : '127.0.0.1',
+	dbhost : '211.101.12.237',
 	dbport : '27017',
 	dbname : 'cars',
 	crypto_key:'vtejuf33clover',
