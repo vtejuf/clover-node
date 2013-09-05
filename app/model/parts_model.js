@@ -65,23 +65,43 @@ function get_position(callback,pid,position){
 }
 
 function parts_search(callback,reg,skip){
+// var time = new Date().getSeconds();
+// console.log('start',0);
 	db(cfg.dbname).open(function(err,db){
 		db.collection('parts').find(
-		{$or:[
-			{brand:reg},
-			{category:reg},
-			{name:reg}
-		]}
-		,{
+		{name:reg},
+		{
 			fields:{_id:0,category:1,brand:1,from_site:1,name:1,price:1,small_image_url:1,url:1,hot:1}
 			,sort:{hot:-1}
 			,skip:skip
 			,limit:50
 		}).toArray(function(err,result){
+// console.log('res-all-or',new Date().getSeconds()-time);
 			db.close();
 			callback(err,result);
 		});
 	});
+
+
+// 	db(cfg.dbname).open(function(err,db){
+// 		db.collection('parts').find(
+// 		{$or:[
+// 			{brand:reg},
+// 			{category:reg},
+// 			{name:reg}
+// 		]}
+// 		,{
+// 			fields:{_id:0,category:1,brand:1,from_site:1,name:1,price:1,small_image_url:1,url:1,hot:1}
+// 			,sort:{hot:-1}
+// 			,skip:skip
+// 			,limit:50
+// 		}).toArray(function(err,result){
+// console.log('res-all-or',new Date().getSeconds()-time);
+// 			db.close();
+// 			callback(err,result);
+// 		});
+// 	});
+
 }
 
 module.exports = {

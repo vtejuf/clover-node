@@ -25,7 +25,7 @@ tbody,tr{
 a{outline:none}
 a:active {outli:expression(this.onFocus=this.blur());}
 a:focus { outline:0; }
-
+a:visited { color:#333; }
 .warper818{
 	width:818px;
 	margin:0 auto;
