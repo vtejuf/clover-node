@@ -32,7 +32,7 @@ function result (app,query){
 		}
 		parts_model.get_position(function(err,doc){
 			var type_name = doc.join('&nbsp;>&nbsp;');
-			var pkw = doc.join(' ')+' '+app.cfg.web_key_words;
+			var pkw = doc.join(',')+','+app.cfg.web_key_words;
 			app.tmpl(app.cfg.theme+'/result.ejs',{'category':type_name,'parts':parts,'brands':brands,'from_sites':from_sites,'sort_index':sort_index,'search':0,page_keywords:pkw});
 		},type);
 	},type,0);
@@ -72,6 +72,7 @@ function get_parts_flour(app,type,skip){
 
 
 function search(app){
+	app.postdata.query = app.mender.trim(app.postdata.query);
 	var key_str = app.postdata.query;
 	var skip = app.postdata.skip?app.postdata.skip:0;
 	key_str = '^[^\\n\\r]*'+key_str.replace(/\\/g,'\\\\').replace(/\//g,'\\/').replace(/\s+/g,'[^\\n\\r]*')+'[^\\n\\r]*$';
@@ -96,7 +97,7 @@ function search(app){
 		for(var j in from_sites){
 			sort_index[from_sites[j]] = 'from_site'+j;
 		}
-		var pkw = app.postdata.query+' '+app.cfg.web_key_words;
+		var pkw = app.postdata.query.replace(/\s+/g,',')+','+app.cfg.web_key_words;
 		app.tmpl(app.cfg.theme+'/result.ejs',{'category':app.postdata.query,'parts':parts,'brands':brands,'from_sites':from_sites,'sort_index':sort_index,'search':1,page_keywords:pkw});
 	},reg,skip);
 }
