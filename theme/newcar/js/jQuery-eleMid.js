@@ -15,10 +15,12 @@
 		if(option.bottom){
 			option.top= option.top || null;
 		}
-		var bodyWidth= document.body.clientWidth,
-			bodyHeight= document.body.clientHeight,
-			scrTop = $('body').scrollTop(),
-			scrLeft = $('body').scrollLeft();
+
+		var scrTop = jQuery('body').scrollTop(),
+			scrLeft = jQuery('body').scrollLeft(),
+			bodyWidth= jQuery(window).width(),
+			bodyHeight= jQuery(window).height();
+
 		this.each(function(){
 			var selfWidth= jQuery(this).outerWidth(),
 				selfHeight= jQuery(this).outerHeight(),
@@ -28,8 +30,8 @@
 			if(option.mouse){
 				var ml= option['mouse'].clientX,
 					mt= option['mouse'].clientY,
-					wl= document.body.clientWidth,
-					wt= document.body.clientHeight;
+					wl= bodyWidth,
+					wt= bodyHeight;
 				ext_obj.left=(wl- ml)> (selfWidth+50)?ml+"px":(ml- selfWidth)+"px";
 				ext_obj.top= (wt- mt)> (selfHeight+50)?mt+"px":(ml- selfHeight)+"px";
 			}else{
