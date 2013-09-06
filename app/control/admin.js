@@ -129,18 +129,14 @@ function user(app,active){
 function edit(app,type){
 	var data = app.postdata;
 	admin_model.edit_one(function(err,doc){
-		if(doc){
-			app.location(app,'/admin/'+type);
-		}
+		app.location(app,'/admin/'+type);
 	},type,data);
 }
 
 function add(app,type){
 	var data = app.postdata;
 	admin_model.add_one(function(err,doc){
-		if(doc){
-			app.location(app,'/admin/'+type);
-		}
+		app.location(app,'/admin/'+type);
 	},type,data);
 }
 
@@ -150,9 +146,6 @@ function del(app,type){
 	id.forEach(function(s){
 		var data = {'_id':s};
 		admin_model.delete_one(function(err,doc){
-			if(err){
-				return false;
-			}
 			app.location(app,'/admin/'+type);
 		},type,data);
 	});
