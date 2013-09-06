@@ -1,5 +1,5 @@
 	/*元素居中
-	*
+	*author vtejuf@126.com
 	*   $(ele).eleMid([option]) 默认left、top居中 // css -- > left:居中;top:居中
 	*	参数option				json格式 //{"left":"333px",top:"30px"} css -- > left:333px;top:30px
 	*	option属性 right		单独指定 right 则改为 right 定位，bottom 同理 // {"right":"50px"} css -- > right:50px;top:居中
@@ -16,32 +16,35 @@
 			option.top= option.top || null;
 		}
 		var bodyWidth= document.body.clientWidth,
-			bodyHeight= document.body.clientHeight;
+			bodyHeight= document.body.clientHeight,
+			scrTop = $('body').scrollTop(),
+			scrLeft = $('body').scrollLeft();
 		this.each(function(){
 			var selfWidth= jQuery(this).outerWidth(),
 				selfHeight= jQuery(this).outerHeight(),
-				css= {};
+				css= {},
+				ext_obj={};
 
 			if(option.mouse){
 				var ml= option['mouse'].clientX,
 					mt= option['mouse'].clientY,
 					wl= document.body.clientWidth,
 					wt= document.body.clientHeight;
-				option.left=(wl- ml)> (selfWidth+50)?ml+"px":(ml- selfWidth)+"px";
-				option.top= (wt- mt)> (selfHeight+50)?mt+"px":(ml- selfHeight)+"px";
+				ext_obj.left=(wl- ml)> (selfWidth+50)?ml+"px":(ml- selfWidth)+"px";
+				ext_obj.top= (wt- mt)> (selfHeight+50)?mt+"px":(ml- selfHeight)+"px";
 			}else{
-				var midwidth= (bodyWidth/2-selfWidth/2),
-					midheight= (bodyHeight/2-selfHeight/2);
+				var midwidth= (bodyWidth-selfWidth)/2+scrLeft,
+					midheight= (bodyHeight-selfHeight)/2+scrTop;
 				if(option.add){
 					var addleft= option["left"] || '',
 						addtop= option["top"] || '';
-					option.top= midheight+addtop+"px";
-					option.left= midwidth+addleft+"px";
+					ext_obj.top= midheight+addtop+"px";
+					ext_obj.left= midwidth+addleft+"px";
 				}
 				css.top= midheight+'px';
 				css.left= midwidth+'px';
 			}
-			jQuery.extend(css,option);
+			jQuery.extend(css,ext_obj);
 			jQuery(this).css(css);
 		});
 

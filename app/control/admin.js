@@ -5,7 +5,7 @@ var header_path = cfg.root+cfg.theme+'/admin/header.ejs';
 
 function index(app){
 	var session_info = app.session.get(app);
-	if(!session_info || +session_info.group !== 9){
+	if(!session_info || !session_info.loged || +session_info.group !== 9){
 		app.session.set(app,'',function(){
 			app.location(app,'/admin/login');
 		});
@@ -16,7 +16,7 @@ function index(app){
 
 function login(app){
 	var session_info = app.session.get(app);
-	if(session_info && session_info.loged){
+	if(session_info && session_info.loged && +session_info.group == 9){
 		app.location(app,'/admin');
 		return;
 	}
@@ -38,7 +38,7 @@ function login(app){
 
 function cats(app,active){
 	var session_info = app.session.get(app);
-	if(!session_info || +session_info.group !== 9){
+	if(!session_info || !session_info.loged || +session_info.group !== 9){
 		app.session.set(app,'',function(){
 			app.location(app,'/admin/login');
 		});
@@ -71,7 +71,7 @@ function cats(app,active){
 
 function parts(app,active){
 	var session_info = app.session.get(app);
-	if(!session_info || +session_info.group !== 9){
+	if(!session_info || !session_info.loged || +session_info.group !== 9){
 		app.session.set(app,'',function(){
 			app.location(app,'/admin/login');
 		});
@@ -108,7 +108,7 @@ function parts(app,active){
 
 function user(app,active){
 	var session_info = app.session.get(app);
-	if(!session_info || +session_info.group !== 9){
+	if(!session_info || !session_info.loged || +session_info.group !== 9){
 		app.session.set(app,'',function(){
 			app.location(app,'/admin/login');
 		});
@@ -150,6 +150,9 @@ function del(app,type){
 	id.forEach(function(s){
 		var data = {'_id':s};
 		admin_model.delete_one(function(err,doc){
+			if(err){
+				return false;
+			}
 			app.location(app,'/admin/'+type);
 		},type,data);
 	});
