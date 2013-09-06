@@ -52,8 +52,11 @@
 <label class='id-title'></label>
 <hr>
 <input type='hidden' name='_id' value='' placeholder='_id'/>
+分类名
 <input type='text' name='name' value='' placeholder='name'/>
+父类ID
 <input type='text' name='parent_auto_motive_id' value='' placeholder='parent_auto_motive_id'/>
+点击数
 <input type='text' name='click' value='' placeholder='click'/>
 <hr style='margin:10px 0;'>
 <button type='submit' class='btn btn-primary float-right'>确定</button>
@@ -64,6 +67,7 @@
 合并后的子栏目将被删除，<br>所有产品并入合并后的目录下。<br>
 <h2>合并操作不可逆，确定要合并?</h2>
 <hr>
+合并后的名称
 <input type='text' name='name'>
 <input type='hidden' name='ids' value=''/>
 <hr style='margin:10px 0;'>
@@ -73,11 +77,17 @@
 
 
 <form id='addForm' class='add-form display-n' action='/admin/cats/add' method='post'>
+来源
 <input type='text' name='from_site' value='' placeholder='from_site'/>
+等级
 <input type='text' name='level' value='' placeholder='level'/>
+分类名
 <input type='text' name='name' value='' placeholder='name'/>
+父ID
 <input type='text' name='parent_auto_motive_id' value='' placeholder='parent_auto_motive_id'/>
+link
 <input type='text' name='link' value='' placeholder='link'/>
+url
 <input type='text' name='url' value='' placeholder='url'/>
 <hr style='margin:10px 0;'>
 <button type='submit' class='btn btn-primary float-right'>确定</button>
