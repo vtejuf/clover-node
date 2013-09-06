@@ -138,12 +138,16 @@ app.location(app,'/location?q=somequery');
 <h4>app.send</h4>
 发送字符串到前端
 <pre>
-app.send(string);
+app.send(string,string);
 
 @param
     string:发送的字符串
+@param
+    string:发送后是否结束本次请求,['end'|1]
 
-app.send('{"success":1}');
+app.send('{"success":1}','end');//带'end'，请求结束
+app.send('{"success":1}');//不带'end'，请求继续
+app.location('{"success":1}');
 </pre>
 <h4>app.parsecookie</h4>
 解析当前所有cookie
