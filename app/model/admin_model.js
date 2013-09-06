@@ -30,7 +30,7 @@ function cats_format(doc){
 		if(level.level == i){
 			out.push(level);
 		};
-		floor = level.level>floor?level.level:floor;
+		floor = level.level>floor?level.level:floor;//最高几层
 	});
 	function _self(){
 		if(i++>floor){
@@ -38,13 +38,18 @@ function cats_format(doc){
 		}
 		for(j=l;j>0;j--){
 			if(doc[j].level==i){
+				var insert=true;
 				var pid = doc[j].parent_auto_motive_id;
 				for(var o in out){
 					if(out[o]._id+'' == pid+''){
 						var pos = +o+1;
 						out.splice(pos,0,doc[j]);
+						insert=false;
 						break;
-					};
+					}
+				}
+				if(insert){
+					out.push(doc[j]);
 				}
 			}
 		}
@@ -111,6 +116,7 @@ function edit_one(callback,type,data){
 	delete data._id;
 	db(cfg.dbname).open(function(err,db){
 		db.collection(type).update(where,{$set:data},{fsync:true,safe:true},function(err,doc){
+			console.log(doc);
 			callback(err,doc);
 			db.close();
 		});

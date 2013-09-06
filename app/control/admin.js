@@ -149,9 +149,10 @@ function del(app,type){
 	var id = data.ids.split(',');
 	id.forEach(function(s){
 		var data = {'_id':s};
-		admin_model.delete_one(function(err,doc){},type,data);
+		admin_model.delete_one(function(err,doc){
+			app.location(app,'/admin/'+type);
+		},type,data);
 	});
-	app.location(app,'/admin/'+type);
 }
 
 function edit_all(app,type){
