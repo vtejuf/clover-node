@@ -16,8 +16,8 @@
 			option.top= option.top || null;
 		}
 
-		var scrTop = jQuery('body').scrollTop(),
-			scrLeft = jQuery('body').scrollLeft(),
+		var scrTop = jQuery(document).scrollTop(),
+			scrLeft = jQuery(document).scrollLeft(),
 			bodyWidth= jQuery(window).width(),
 			bodyHeight= jQuery(window).height();
 
@@ -48,6 +48,7 @@
 			}
 			jQuery.extend(css,ext_obj);
 			jQuery(this).css(css);
+			jQuery(this).css({'position':'absolute'});
 		});
 
 		return this;
